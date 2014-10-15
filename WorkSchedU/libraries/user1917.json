@@ -1,0 +1,24 @@
+{
+    "Username": "username",
+    "Name": "name",
+    "Email": "email",
+    "TotalHours": {
+      "Week": 0.0,
+      "Sunday": 0.0,
+      "Monday": 0.0,
+      "Tuesday": 0.0,
+      "Wednesday": 0.0,
+      "Thursday": 0.0,
+      "Friday": 0.0,
+      "Saturday": 0.0
+    },
+    "FromToHours": {
+      "Sunday": "1:00am-1:00am",
+      "Monday": "1:00am-1:00am",
+      "Tuesday": "1:00am-1:00am",
+      "Wednesday": "1:00am-1:00am",
+      "Thursday": "1:00am-1:00am",
+      "Friday": "1:00am-1:00am",
+      "Saturday": "1:00am-1:00am"
+    }
+}
