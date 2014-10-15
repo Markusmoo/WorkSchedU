@@ -12,7 +12,6 @@ import java.io.Writer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
 public class Employee { 
@@ -69,9 +68,11 @@ public class Employee {
 	public boolean save() throws IOException{
 		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\user"+this.EMPLOYEE_USERNAME+".json";
 		Writer writer = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		
-		gson.toJson(this, writer);
+		writer.write(gson.toJson(this));
+		writer.flush();
+		writer.close();
 		
 		System.out.println("Employee JSON file successfully saved to: "+path); 
 		return true;
@@ -83,7 +84,7 @@ public class Employee {
 		FileInputStream file = new FileInputStream(path);
 		
 		Reader reader = new InputStreamReader(file);
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
 		e = gson.fromJson(reader, Employee.class);
 		return e;
@@ -103,7 +104,7 @@ public class Employee {
 				FileInputStream file = new FileInputStream(listOfFiles[i]);
 				
 				Reader reader = new InputStreamReader(file);
-				Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+				Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		
 				Employee temp_employee = gson.fromJson(reader, Employee.class);
 				if(temp_employee != null){
