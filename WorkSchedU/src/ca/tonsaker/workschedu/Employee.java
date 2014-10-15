@@ -12,7 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
-public class Employee {
+public class Employee { //http://www.apache.org/licenses/LICENSE-2.0
 
 	private ScheduleTable scdTable;
 	
@@ -60,7 +60,7 @@ public class Employee {
 				+"]";
 	}
 
-	public boolean save() throws IOException{ //TODO method stub..learn json?
+	public boolean save() throws IOException{ //TODO method stub
 		JsonObject obj = new JsonObject();
 		
 		return true;
@@ -78,7 +78,7 @@ public class Employee {
 		return e;
 	}
 	
-	public static Employee[] load() throws FileNotFoundException{ //TODO Load all files in folder      http://stackoverflow.com/questions/5694385/getting-the-filenames-of-all-files-in-a-folder
+	public static Employee[] load() throws FileNotFoundException{
 		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\";
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
