@@ -3,17 +3,23 @@ package ca.tonsaker.workschedu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.Writer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
-public class Employee { //http://www.apache.org/licenses/LICENSE-2.0
-
+public class Employee { 
+	//http://www.apache.org/licenses/LICENSE-2.0
+	//http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/index.html
+	//http://www.javacreed.com/simple-gson-example/
+	
 	private ScheduleTable scdTable;
 	
 	@Expose public String EMPLOYEE_NAME;
@@ -60,9 +66,14 @@ public class Employee { //http://www.apache.org/licenses/LICENSE-2.0
 				+"]";
 	}
 
-	public boolean save() throws IOException{ //TODO method stub
-		JsonObject obj = new JsonObject();
+	public boolean save() throws IOException{
+		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\user"+this.EMPLOYEE_USERNAME+".json";
+		Writer writer = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
+		gson.toJson(this, writer);
+		
+		System.out.println("Employee JSON file successfully saved to: "+path); 
 		return true;
 	}
 	
@@ -88,14 +99,23 @@ public class Employee { //http://www.apache.org/licenses/LICENSE-2.0
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile() && listOfFiles[i].getName().substring(listOfFiles[i].getName().indexOf('.')).equals(".json")){
 				System.out.println("File " + listOfFiles[i].getName());
-				empIdx++;
 			
 				FileInputStream file = new FileInputStream(listOfFiles[i]);
 				
 				Reader reader = new InputStreamReader(file);
 				Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
-				temp_employeesArray[i] = gson.fromJson(reader, Employee.class);
+				Employee temp_employee = gson.fromJson(reader, Employee.class);
+				if(temp_employee != null){
+					temp_employeesArray[i] = temp_employee;
+						empIdx++;
+				}else{
+					try {
+						throw new Exception("Json File "+path+listOfFiles[i].getName()+" is an invalid Employee.class json file");
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 		Employee[] employeesArray = new Employee[empIdx];

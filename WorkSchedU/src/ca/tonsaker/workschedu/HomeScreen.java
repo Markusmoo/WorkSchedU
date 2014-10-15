@@ -41,7 +41,6 @@ public class HomeScreen extends JFrame {
 	
 	
 	//TODO Testing Values.  Make employee object storing total week hours, add save and load data with strings.
-	public static String[] employees = {"Bob Cazzam", "George Rufflestick", "Markus Tonsaker", "Geddy Lee", "Alex Lifeson"};
 	private ScheduleTable table;
 	
 	public class JSpinnerListener implements ChangeListener{
@@ -62,9 +61,17 @@ public class HomeScreen extends JFrame {
 					for(Employee e : Employee.load()){
 						System.out.println(e);
 					}
+					Employee[] employeesArray = new Employee[20];
+					for(int i = 0; i < employeesArray.length; i++){
+						employeesArray[i] = new Employee();
+						employeesArray[i].setUsername(Integer.toString(i*5));
+					}
+					for(Employee e : employeesArray){
+						e.save();
+					}
 					
-					//HomeScreen homeFrame = new HomeScreen();
-					//homeFrame.setVisible(true);
+					HomeScreen homeFrame = new HomeScreen();
+					homeFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
