@@ -58,18 +58,6 @@ public class HomeScreen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					for(Employee e : Employee.load()){
-						System.out.println(e);
-					}
-					Employee[] employeesArray = new Employee[20];
-					for(int i = 0; i < employeesArray.length; i++){
-						employeesArray[i] = new Employee();
-						employeesArray[i].setUsername(Integer.toString(i*5));
-					}
-					for(Employee e : employeesArray){
-						e.save();
-					}
-					
 					HomeScreen homeFrame = new HomeScreen();
 					homeFrame.setVisible(true);
 				} catch (Exception e) {

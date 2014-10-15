@@ -21,9 +21,9 @@ public class Employee {
 	
 	private ScheduleTable scdTable;
 	
-	@Expose public String EMPLOYEE_NAME;
-	@Expose public String EMPLOYEE_EMAIL;
-	@Expose public String EMPLOYEE_USERNAME;
+	@Expose public String EMPLOYEE_NAME = "";
+	@Expose public String EMPLOYEE_EMAIL = "";
+	@Expose public String EMPLOYEE_USERNAME = "";
 	
 	@Expose public double TOTAL_HOURS_WEEK;
 	@Expose public double TOTAL_HOURS_SUNDAY;
@@ -35,13 +35,13 @@ public class Employee {
 	@Expose public double TOTAL_HOURS_SATURDAY;
 	
 	//From and To hours.  Example: 7:00am-3:30pm
-	@Expose public String SUNDAY_HOURS;
-	@Expose public String MONDAY_HOURS;
-	@Expose public String TUESDAY_HOURS;
-	@Expose public String WEDNESDAY_HOURS;
-	@Expose public String THURSDAY_HOURS;
-	@Expose public String FRIDAY_HOURS;
-	@Expose public String SATURDAY_HOURS;
+	@Expose public String SUNDAY_HOURS = "";
+	@Expose public String MONDAY_HOURS = "";
+	@Expose public String TUESDAY_HOURS = "";
+	@Expose public String WEDNESDAY_HOURS = "";
+	@Expose public String THURSDAY_HOURS = "";
+	@Expose public String FRIDAY_HOURS = "";
+	@Expose public String SATURDAY_HOURS = "";
 	
 	public String toString(){
 		return "Employee [EMPLOYEE_NAME="+this.EMPLOYEE_NAME
@@ -67,7 +67,7 @@ public class Employee {
 
 	public boolean save() throws IOException{
 		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\user"+this.EMPLOYEE_USERNAME+".json";
-		Writer writer = new OutputStreamWriter(new FileOutputStream(path), "UTF-8");
+		Writer writer = new OutputStreamWriter(new FileOutputStream(path));
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		
 		writer.write(gson.toJson(this));
