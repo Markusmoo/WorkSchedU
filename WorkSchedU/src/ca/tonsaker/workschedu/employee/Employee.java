@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
-public class Employee { 
+public class Employee { //TODO remember to implement user hours accordingly to week
 	//http://www.apache.org/licenses/LICENSE-2.0
 	//http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/index.html
 	//http://www.javacreed.com/simple-gson-example/
@@ -27,23 +27,8 @@ public class Employee {
 	@Expose public String EMPLOYEE_EMAIL = "";
 	@Expose public String EMPLOYEE_USERNAME = "";
 	
-	@Expose public double TOTAL_HOURS_WEEK;
-	@Expose public double TOTAL_HOURS_SUNDAY;
-	@Expose public double TOTAL_HOURS_MONDAY;
-	@Expose public double TOTAL_HOURS_TUESDAY;
-	@Expose public double TOTAL_HOURS_WEDNESDAY;
-	@Expose public double TOTAL_HOURS_THURSDAY;
-	@Expose public double TOTAL_HOURS_FRIDAY;
-	@Expose public double TOTAL_HOURS_SATURDAY;
-	
-	//From and To hours.  Example: 7:00am-3:30pm
-	@Expose public String SUNDAY_HOURS = "";
-	@Expose public String MONDAY_HOURS = "";
-	@Expose public String TUESDAY_HOURS = "";
-	@Expose public String WEDNESDAY_HOURS = "";
-	@Expose public String THURSDAY_HOURS = "";
-	@Expose public String FRIDAY_HOURS = "";
-	@Expose public String SATURDAY_HOURS = "";
+	//TODO Go off by date
+	@Expose public Week week;
 	
 	public String toString(){
 		return this.EMPLOYEE_NAME;
@@ -166,14 +151,14 @@ public class Employee {
 		String time;
 		time = fromTime12 + "-" + toTime12;
 		switch(day){
-			case 0: scdTable.setCell(1, 1, time); SUNDAY_HOURS = time; break;
-			case 1: scdTable.setCell(1, 2, time); MONDAY_HOURS = time; break;
-			case 2: scdTable.setCell(1, 3, time); TUESDAY_HOURS = time; break;
-			case 3: scdTable.setCell(1, 4, time); WEDNESDAY_HOURS = time; break;
-			case 4: scdTable.setCell(1, 5, time); THURSDAY_HOURS = time; break;
-			case 5: scdTable.setCell(1, 6, time); FRIDAY_HOURS = time; break;
-			case 6: scdTable.setCell(1, 7, time); SATURDAY_HOURS = time; break;
-			default: scdTable.setCell(1, 1, time); SUNDAY_HOURS = time; break;
+			case 0: scdTable.setCell(1, 1, time); week.SUNDAY_HOURS = time; break;
+			case 1: scdTable.setCell(1, 2, time); week.MONDAY_HOURS = time; break;
+			case 2: scdTable.setCell(1, 3, time); week.TUESDAY_HOURS = time; break;
+			case 3: scdTable.setCell(1, 4, time); week.WEDNESDAY_HOURS = time; break;
+			case 4: scdTable.setCell(1, 5, time); week.THURSDAY_HOURS = time; break;
+			case 5: scdTable.setCell(1, 6, time); week.FRIDAY_HOURS = time; break;
+			case 6: scdTable.setCell(1, 7, time); week.SATURDAY_HOURS = time; break;
+			default: scdTable.setCell(1, 1, time); week.SUNDAY_HOURS = time; break;
 		}
 		
 		return scdTable;
@@ -181,26 +166,26 @@ public class Employee {
 	
 	public double getTotalDayHours(int day){
 		switch(day){
-			case 0: return TOTAL_HOURS_SUNDAY;
-			case 1: return TOTAL_HOURS_MONDAY;
-			case 2: return TOTAL_HOURS_TUESDAY;
-			case 3: return TOTAL_HOURS_WEDNESDAY;
-			case 4: return TOTAL_HOURS_THURSDAY;
-			case 5: return TOTAL_HOURS_FRIDAY;
-			case 6: return TOTAL_HOURS_SATURDAY;
-			default: return TOTAL_HOURS_SUNDAY;
+			case 0: return week.TOTAL_HOURS_SUNDAY;
+			case 1: return week.TOTAL_HOURS_MONDAY;
+			case 2: return week.TOTAL_HOURS_TUESDAY;
+			case 3: return week.TOTAL_HOURS_WEDNESDAY;
+			case 4: return week.TOTAL_HOURS_THURSDAY;
+			case 5: return week.TOTAL_HOURS_FRIDAY;
+			case 6: return week.TOTAL_HOURS_SATURDAY;
+			default: return week.TOTAL_HOURS_SUNDAY;
 		}
 	}
 	
 	public double getTotalWeekHours(){
-		return TOTAL_HOURS_WEEK =
-				TOTAL_HOURS_SUNDAY+
-				TOTAL_HOURS_MONDAY+
-				TOTAL_HOURS_TUESDAY+
-				TOTAL_HOURS_WEDNESDAY+
-				TOTAL_HOURS_THURSDAY+
-				TOTAL_HOURS_FRIDAY+
-				TOTAL_HOURS_SATURDAY;
+		return week.TOTAL_HOURS_WEEK =
+				week.TOTAL_HOURS_SUNDAY+
+				week.TOTAL_HOURS_MONDAY+
+				week.TOTAL_HOURS_TUESDAY+
+				week.TOTAL_HOURS_WEDNESDAY+
+				week.TOTAL_HOURS_THURSDAY+
+				week.TOTAL_HOURS_FRIDAY+
+				week.TOTAL_HOURS_SATURDAY;
 	}
 	
 	public double convertTimeHoursToDouble24Hour(String time){

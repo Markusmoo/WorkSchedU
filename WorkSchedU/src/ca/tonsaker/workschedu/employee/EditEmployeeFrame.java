@@ -38,6 +38,9 @@ public class EditEmployeeFrame extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	
+	private String date;
+	private String week;
+	
 	private Employee[] employeeArray;
 	private Employee[] TEMP_EMPLOYEES;
 	private Employee selectedEmployee;
@@ -59,7 +62,9 @@ public class EditEmployeeFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		loadEmployees();
-
+		week = homeScreen.weekSpinner.getValue().toString();
+		date = homeScreen.dateTextField.getText();
+		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setToolTipText("Employee's Name");
 		comboBox.setModel(new DefaultComboBoxModel(employeeArray));
@@ -90,6 +95,7 @@ public class EditEmployeeFrame extends JFrame {
 		textField.setToolTipText("Week scheduling for");
 		textField.setEditable(false);
 		textField.setBounds(396, 11, 41, 20);
+		textField.setText(week);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
@@ -101,13 +107,14 @@ public class EditEmployeeFrame extends JFrame {
 		textField_1.setToolTipText("Date scheduling for");
 		textField_1.setEditable(false);
 		textField_1.setBounds(488, 11, 86, 20);
+		textField_1.setText(date);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 
 		table = new ScheduleTable(1);
 		table.setBounds(10, 100, 564, 32);
 		table.setDefaultRenderer(new TableRenderer(homeScreen.getDayOfWeek(),
-				homeScreen.getWeek(), table, homeScreen.spinner));
+				homeScreen.getWeek(), table, homeScreen.weekSpinner));
 		table.setRowSelectionAllowed(false);
 		contentPane.add(table);
 
@@ -255,6 +262,7 @@ public class EditEmployeeFrame extends JFrame {
 	}
 	
 	public void updateEmployeeFrame(Employee employee){ //TODO Method stub
-		System.out.println(employee.FRIDAY_HOURS);
+		textField_4.setText(employee.EMPLOYEE_EMAIL);
+		textField_5.setText(employee.EMPLOYEE_USERNAME);
 	}
 }

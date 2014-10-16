@@ -38,8 +38,8 @@ public class HomeScreen extends JFrame {
 	private static final long serialVersionUID = -6101442872983046258L;
 	
 	private int YEAR = 0;
-	private JTextField textField;
-	public JSpinner spinner;
+	public JTextField dateTextField;
+	public JSpinner weekSpinner;
 	
 	
 	//TODO Testing Values.  Make employee object storing total week hours, add save and load data with strings.
@@ -175,31 +175,31 @@ public class HomeScreen extends JFrame {
 		mnHelp.add(mntmAbout);
 		getContentPane().setLayout(null);
 		
-		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(getWeek(), 0, getWeeksOfYear(YEAR)+1, 1));
-		spinner.setBounds(57, 10, 47, 20);
-		spinner.addChangeListener(new JSpinnerListener(){
+		weekSpinner = new JSpinner();
+		weekSpinner.setModel(new SpinnerNumberModel(getWeek(), 0, getWeeksOfYear(YEAR)+1, 1));
+		weekSpinner.setBounds(57, 10, 47, 20);
+		weekSpinner.addChangeListener(new JSpinnerListener(){
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				int value = (Integer) spinner.getValue();
+				int value = (Integer) weekSpinner.getValue();
 				if(value > getWeeksOfYear(YEAR)){
 					YEAR++;
 					value = 1;
-					spinner.setModel(new SpinnerNumberModel(value, 0, getWeeksOfYear(YEAR)+1, 1));
+					weekSpinner.setModel(new SpinnerNumberModel(value, 0, getWeeksOfYear(YEAR)+1, 1));
 
 				}else if(value < 1){
 					YEAR--;
 					value = getWeeksOfYear(YEAR);
-					spinner.setModel(new SpinnerNumberModel(value, 0, getWeeksOfYear(YEAR)+1, 1));
+					weekSpinner.setModel(new SpinnerNumberModel(value, 0, getWeeksOfYear(YEAR)+1, 1));
 				}
-				textField.setText(getDate(value, YEAR));
+				dateTextField.setText(getDate(value, YEAR));
 				//System.out.println("Weeks: "+getWeeksOfYear(YEAR)+" Year: "+YEAR); //For Debugging
 				table.repaint();
 			}
 			
 		});
-		getContentPane().add(spinner);
+		getContentPane().add(weekSpinner);
 		
 		JLabel lblWeek = new JLabel("Week:");
 		lblWeek.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -211,16 +211,16 @@ public class HomeScreen extends JFrame {
 		lblDate.setBounds(114, 10, 37, 20);
 		getContentPane().add(lblDate);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setText(getDate(getWeek(), YEAR));
-		textField.setBounds(161, 10, 79, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		dateTextField = new JTextField();
+		dateTextField.setEditable(false);
+		dateTextField.setText(getDate(getWeek(), YEAR));
+		dateTextField.setBounds(161, 10, 79, 20);
+		getContentPane().add(dateTextField);
+		dateTextField.setColumns(10);
 		
 		table = new ScheduleTable(29);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultRenderer(new TableRenderer(getDayOfWeek(), getWeek(), table, spinner));
+		table.setDefaultRenderer(new TableRenderer(getDayOfWeek(), getWeek(), table, weekSpinner));
 		table.setBounds(20, 41, 754, 480);
 		getContentPane().add(table);
 		
