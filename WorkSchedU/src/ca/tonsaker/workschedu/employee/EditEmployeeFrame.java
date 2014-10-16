@@ -1,4 +1,4 @@
-package ca.tonsaker.workschedu;
+package ca.tonsaker.workschedu.employee;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,9 +12,17 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
-import java.awt.Font;
 
-public class EmployeeFrame extends JFrame {
+import ca.tonsaker.workschedu.HomeScreen;
+import ca.tonsaker.workschedu.ScheduleTable;
+import ca.tonsaker.workschedu.TableRenderer;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+
+public class EditEmployeeFrame extends JFrame {
 
 	/**
 	 * 
@@ -29,9 +37,13 @@ public class EmployeeFrame extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-
+	
+	private Employee[] employeeArray;
+	private Employee[] TEMP_EMPLOYEES;
+	private Employee selectedEmployee;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public EmployeeFrame(HomeScreen homeScreen) {
+	public EditEmployeeFrame(HomeScreen homeScreen) {
 		setTitle("Employee SchedU Manager");
 		this.homeScreen = homeScreen;
 		try {
@@ -45,12 +57,25 @@ public class EmployeeFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		loadEmployees();
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setToolTipText("Employee's Name");
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {
-				"This is the", "Format that the", "JComboBox uses" }));
+		comboBox.setModel(new DefaultComboBoxModel(employeeArray));
 		comboBox.setBounds(66, 11, 164, 20);
+		comboBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox box = (JComboBox) e.getSource();
+				if(box.getSelectedItem() instanceof Employee){
+					selectedEmployee = (Employee) box.getSelectedItem();
+				}
+				updateEmployeeFrame(selectedEmployee);
+			}
+			
+		});
 		contentPane.add(comboBox);
 
 		JLabel lblEmployee = new JLabel("Employee:");
@@ -83,6 +108,7 @@ public class EmployeeFrame extends JFrame {
 		table.setBounds(10, 100, 564, 32);
 		table.setDefaultRenderer(new TableRenderer(homeScreen.getDayOfWeek(),
 				homeScreen.getWeek(), table, homeScreen.spinner));
+		table.setRowSelectionAllowed(false);
 		contentPane.add(table);
 
 		JButton btnSaveAndExit = new JButton("Save and Exit");
@@ -200,5 +226,35 @@ public class EmployeeFrame extends JFrame {
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		this.setVisible(true);
+	}
+	
+	private void loadEmployees(){
+		try {
+			employeeArray = Employee.load();
+			TEMP_EMPLOYEES = employeeArray;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private Employee loadEmployee(String username){
+		try {
+			return Employee.load(username);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String[] getEmployeesNames(){
+		String[] names = new String[employeeArray.length];
+		for(int i = 0; i < employeeArray.length; i++){
+			names[i] = employeeArray[i].getName();
+		}
+		return names;
+	}
+	
+	public void updateEmployeeFrame(Employee employee){ //TODO Method stub
+		System.out.println(employee.FRIDAY_HOURS);
 	}
 }

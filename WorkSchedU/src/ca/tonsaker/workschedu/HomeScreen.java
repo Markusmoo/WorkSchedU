@@ -28,6 +28,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ImageIcon;
 
+import ca.tonsaker.workschedu.employee.EditEmployeeFrame;
+
 public class HomeScreen extends JFrame {
 	
 	/**
@@ -226,7 +228,7 @@ public class HomeScreen extends JFrame {
 	}
 	
 	public void openEmployeeManager(){
-		new EmployeeFrame(this);
+		new EditEmployeeFrame(this);
 	}
 	
 	public int getWeek(){

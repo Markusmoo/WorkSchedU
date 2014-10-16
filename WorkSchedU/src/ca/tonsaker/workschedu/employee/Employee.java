@@ -1,4 +1,4 @@
-package ca.tonsaker.workschedu;
+package ca.tonsaker.workschedu.employee;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+
+import ca.tonsaker.workschedu.ScheduleTable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +46,8 @@ public class Employee {
 	@Expose public String SATURDAY_HOURS = "";
 	
 	public String toString(){
-		return "Employee [EMPLOYEE_NAME="+this.EMPLOYEE_NAME
+		return this.EMPLOYEE_NAME;
+				/*"Employee [EMPLOYEE_NAME="+this.EMPLOYEE_NAME
 				+", EMPLOYEE_EMAIL="+this.EMPLOYEE_EMAIL
 				+", EMPLOYEE_USERNAME="+this.EMPLOYEE_USERNAME
 				+", TOTAL_HOURS_WEEK="+this.TOTAL_HOURS_WEEK
@@ -62,7 +65,7 @@ public class Employee {
 				+", THURSDAY_HOURS="+this.THURSDAY_HOURS
 				+", FRIDAY_HOURS="+this.FRIDAY_HOURS
 				+", SATURDAY_HOURS="+this.SATURDAY_HOURS
-				+"]";
+				+"]";*/
 	}
 
 	public boolean save() throws IOException{
@@ -99,7 +102,6 @@ public class Employee {
 		int empIdx = 0;
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile() && listOfFiles[i].getName().substring(listOfFiles[i].getName().indexOf('.')).equals(".json")){
-				System.out.println("File " + listOfFiles[i].getName());
 			
 				FileInputStream file = new FileInputStream(listOfFiles[i]);
 				
@@ -109,7 +111,8 @@ public class Employee {
 				Employee temp_employee = gson.fromJson(reader, Employee.class);
 				if(temp_employee != null){
 					temp_employeesArray[i] = temp_employee;
-						empIdx++;
+					System.out.println("Loaded file " + listOfFiles[i].getName());
+					empIdx++;
 				}else{
 					try {
 						throw new Exception("Json File "+path+listOfFiles[i].getName()+" is an invalid Employee.class json file");
