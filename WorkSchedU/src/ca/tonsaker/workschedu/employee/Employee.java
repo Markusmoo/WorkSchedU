@@ -16,19 +16,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
-public class Employee { //TODO remember to implement user hours accordingly to week
+public class Employee { 
+	//TODO remember to implement user hours accordingly to week
+	//TODO Create DeleteEmployeeFrame.java
+	
 	//http://www.apache.org/licenses/LICENSE-2.0
 	//http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/index.html
 	//http://www.javacreed.com/simple-gson-example/
 	
 	private ScheduleTable scdTable;
 	
-	@Expose public String EMPLOYEE_NAME = "";
-	@Expose public String EMPLOYEE_EMAIL = "";
-	@Expose public String EMPLOYEE_USERNAME = "";
+	@Expose private String EMPLOYEE_NAME = "";
+	@Expose private String EMPLOYEE_EMAIL = "";
+	@Expose private String EMPLOYEE_USERNAME = "";
 	
 	//TODO Go off by date
-	@Expose public Week week;
+	@Expose private Week[] weeks; //TODO Debug Should be done in add employee menu
+			private int referenceWeekIdx;
 	
 	public String toString(){
 		return this.EMPLOYEE_NAME;
@@ -118,6 +122,26 @@ public class Employee { //TODO remember to implement user hours accordingly to w
 		return employeesArray;
 	}
 	
+	public void setDate(String dateByWeek){
+		int idx = 0;
+		for(Week i : weeks){
+			if(i != null && i.DATE != null){
+				if(i.DATE.equals(dateByWeek)){
+					referenceWeekIdx = idx;
+					return;
+				}
+			}else{
+				weeks[idx] = new Week(dateByWeek);
+				return;
+			}
+			idx++;
+		}
+		Week[] w = new Week[weeks.length+1];
+		System.arraycopy(weeks, 0, w, 0, weeks.length);
+		weeks = w;
+		weeks[idx] = new Week(dateByWeek);
+	}
+	
 	public void setName(String name){
 		EMPLOYEE_NAME = name;
 	}
@@ -151,14 +175,14 @@ public class Employee { //TODO remember to implement user hours accordingly to w
 		String time;
 		time = fromTime12 + "-" + toTime12;
 		switch(day){
-			case 0: scdTable.setCell(1, 1, time); week.SUNDAY_HOURS = time; break;
-			case 1: scdTable.setCell(1, 2, time); week.MONDAY_HOURS = time; break;
-			case 2: scdTable.setCell(1, 3, time); week.TUESDAY_HOURS = time; break;
-			case 3: scdTable.setCell(1, 4, time); week.WEDNESDAY_HOURS = time; break;
-			case 4: scdTable.setCell(1, 5, time); week.THURSDAY_HOURS = time; break;
-			case 5: scdTable.setCell(1, 6, time); week.FRIDAY_HOURS = time; break;
-			case 6: scdTable.setCell(1, 7, time); week.SATURDAY_HOURS = time; break;
-			default: scdTable.setCell(1, 1, time); week.SUNDAY_HOURS = time; break;
+			case 0: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].SUNDAY_HOURS = time; break;
+			case 1: scdTable.setCell(1, 2, time); weeks[referenceWeekIdx].MONDAY_HOURS = time; break;
+			case 2: scdTable.setCell(1, 3, time); weeks[referenceWeekIdx].TUESDAY_HOURS = time; break;
+			case 3: scdTable.setCell(1, 4, time); weeks[referenceWeekIdx].WEDNESDAY_HOURS = time; break;
+			case 4: scdTable.setCell(1, 5, time); weeks[referenceWeekIdx].THURSDAY_HOURS = time; break;
+			case 5: scdTable.setCell(1, 6, time); weeks[referenceWeekIdx].FRIDAY_HOURS = time; break;
+			case 6: scdTable.setCell(1, 7, time); weeks[referenceWeekIdx].SATURDAY_HOURS = time; break;
+			default: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].SUNDAY_HOURS = time; break;
 		}
 		
 		return scdTable;
@@ -166,29 +190,29 @@ public class Employee { //TODO remember to implement user hours accordingly to w
 	
 	public double getTotalDayHours(int day){
 		switch(day){
-			case 0: return week.TOTAL_HOURS_SUNDAY;
-			case 1: return week.TOTAL_HOURS_MONDAY;
-			case 2: return week.TOTAL_HOURS_TUESDAY;
-			case 3: return week.TOTAL_HOURS_WEDNESDAY;
-			case 4: return week.TOTAL_HOURS_THURSDAY;
-			case 5: return week.TOTAL_HOURS_FRIDAY;
-			case 6: return week.TOTAL_HOURS_SATURDAY;
-			default: return week.TOTAL_HOURS_SUNDAY;
+			case 0: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
+			case 1: return weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY;
+			case 2: return weeks[referenceWeekIdx].TOTAL_HOURS_TUESDAY;
+			case 3: return weeks[referenceWeekIdx].TOTAL_HOURS_WEDNESDAY;
+			case 4: return weeks[referenceWeekIdx].TOTAL_HOURS_THURSDAY;
+			case 5: return weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY;
+			case 6: return weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY;
+			default: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
 		}
 	}
 	
 	public double getTotalWeekHours(){
-		return week.TOTAL_HOURS_WEEK =
-				week.TOTAL_HOURS_SUNDAY+
-				week.TOTAL_HOURS_MONDAY+
-				week.TOTAL_HOURS_TUESDAY+
-				week.TOTAL_HOURS_WEDNESDAY+
-				week.TOTAL_HOURS_THURSDAY+
-				week.TOTAL_HOURS_FRIDAY+
-				week.TOTAL_HOURS_SATURDAY;
+		return weeks[referenceWeekIdx].TOTAL_HOURS_WEEK =
+				weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_TUESDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_WEDNESDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_THURSDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY;
 	}
 	
-	public double convertTimeHoursToDouble24Hour(String time){
+	public double convertTimeHoursToDouble24Hour(String time){ //TODO Check if messes up with 12am/pm due to.. 12am, 1am, 2am, ext.
 		double newTime = 0;
 		time = time.trim();
 		if(time.endsWith("pm")){

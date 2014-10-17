@@ -21,8 +21,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-public class EditEmployeeFrame extends JFrame {
+public class EditEmployeeFrame extends JFrame implements ActionListener{
 
 	/**
 	 * 
@@ -37,6 +38,8 @@ public class EditEmployeeFrame extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	@SuppressWarnings("rawtypes")
+	private JComboBox comboBox;
 	
 	private String date;
 	private String week;
@@ -56,6 +59,7 @@ public class EditEmployeeFrame extends JFrame {
 		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -65,7 +69,7 @@ public class EditEmployeeFrame extends JFrame {
 		week = homeScreen.weekSpinner.getValue().toString();
 		date = homeScreen.dateTextField.getText();
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setToolTipText("Employee's Name");
 		comboBox.setModel(new DefaultComboBoxModel(employeeArray));
 		comboBox.setBounds(66, 11, 164, 20);
@@ -189,6 +193,7 @@ public class EditEmployeeFrame extends JFrame {
 
 		JButton btnSave = new JButton("Save");
 		btnSave.setBounds(10, 327, 89, 23);
+		btnSave.addActionListener(this);
 		contentPane.add(btnSave);
 
 		JLabel lblScheduDayEdit = new JLabel("SchedU Day Edit");
@@ -239,6 +244,9 @@ public class EditEmployeeFrame extends JFrame {
 		try {
 			employeeArray = Employee.load();
 			TEMP_EMPLOYEES = employeeArray;
+			for(Employee i : employeeArray){
+				i.setDate(date);
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -246,13 +254,18 @@ public class EditEmployeeFrame extends JFrame {
 	
 	private Employee loadEmployee(String username){
 		try {
-			return Employee.load(username);
+			Employee tmp = Employee.load(username);
+			tmp.setDate(date);
+			return tmp;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
+	/**
+	 * @return All names of employees stored in employeeArray
+	 */
 	public String[] getEmployeesNames(){
 		String[] names = new String[employeeArray.length];
 		for(int i = 0; i < employeeArray.length; i++){
@@ -262,7 +275,23 @@ public class EditEmployeeFrame extends JFrame {
 	}
 	
 	public void updateEmployeeFrame(Employee employee){ //TODO Method stub
-		textField_4.setText(employee.EMPLOYEE_EMAIL);
-		textField_5.setText(employee.EMPLOYEE_USERNAME);
+		System.out.println("Updating EditEmployeeFrame..");
+		
+		employee.setDate(date);
+		textField_4.setText(employee.getEmail());
+		textField_5.setText(employee.getUsername());
+		
+		System.out.println("Update Successful!");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+		if(src == comboBox){
+			if(comboBox.getSelectedItem() instanceof Employee){
+				selectedEmployee = (Employee) comboBox.getSelectedItem();
+			}
+			updateEmployeeFrame(selectedEmployee);
+		}
 	}
 }
