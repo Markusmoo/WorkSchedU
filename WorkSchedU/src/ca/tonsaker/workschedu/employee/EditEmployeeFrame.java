@@ -237,6 +237,14 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		textField_5.setBounds(115, 70, 115, 20);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
+		
+		JLabel lblPosition = new JLabel("Position:");
+		lblPosition.setBounds(345, 75, 41, 14);
+		contentPane.add(lblPosition);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(396, 69, 178, 20);
+		contentPane.add(comboBox_2);
 		this.setVisible(true);
 	}
 	

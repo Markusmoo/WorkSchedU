@@ -29,6 +29,7 @@ public class Employee {
 	@Expose private String EMPLOYEE_NAME = "";
 	@Expose private String EMPLOYEE_EMAIL = "";
 	@Expose private String EMPLOYEE_USERNAME = "";
+	@Expose private String EMPLOYEE_POSITION = "";
 	
 	//TODO Go off by date
 	@Expose private Week[] weeks; //TODO Debug Should be done in add employee menu
@@ -154,6 +155,10 @@ public class Employee {
 		EMPLOYEE_USERNAME = user;
 	}
 	
+	public void setPosition(String position){
+		EMPLOYEE_POSITION = position;
+	}
+	
 	public String getName(){
 		return EMPLOYEE_NAME;
 	}
@@ -164,6 +169,10 @@ public class Employee {
 	
 	public String getUsername(){
 		return EMPLOYEE_USERNAME;
+	}
+	
+	public String getPosition(){
+		return EMPLOYEE_POSITION;
 	}
 
 	public ScheduleTable updateTable(){
