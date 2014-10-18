@@ -11,8 +11,11 @@ import javax.swing.UIManager;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
 
 import javax.swing.JComboBox;
+
+import ca.tonsaker.workschedu.settings.Utilities;
 
 public class AddEmployeeFrame extends JFrame implements ActionListener{
 
@@ -22,10 +25,14 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 
 	private JButton btnCancel;
 	private JButton btnAdd;
+	
+	@SuppressWarnings("rawtypes")
+	private JComboBox comboBox;
 
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public AddEmployeeFrame() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -72,7 +79,13 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 		lblPosition.setBounds(76, 88, 41, 14);
 		contentPane.add(lblPosition);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = null;
+		try {
+			comboBox = new JComboBox(Utilities.loadPositions());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		comboBox.setBounds(127, 85, 200, 20);
 		contentPane.add(comboBox);
 	}
