@@ -29,6 +29,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ImageIcon;
 
 import ca.tonsaker.workschedu.employee.EditEmployeeFrame;
+import ca.tonsaker.workschedu.settings.Utilities;
 
 public class HomeScreen extends JFrame {
 	
@@ -73,7 +74,7 @@ public class HomeScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public HomeScreen() {
-		YEAR = getYear();
+		YEAR = Utilities.getYear();
 		try { 
 		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -163,6 +164,15 @@ public class HomeScreen extends JFrame {
 		JMenuItem mntmViewEmployeeInfo = new JMenuItem("View Employee Info");
 		mnEmployees.add(mntmViewEmployeeInfo);
 		
+		JMenu mnPositions = new JMenu("Positions");
+		menuBar.add(mnPositions);
+		
+		JMenuItem mntmAddPosition = new JMenuItem("Add Position");
+		mnPositions.add(mntmAddPosition);
+		
+		JMenuItem mntmRemovePosition = new JMenuItem("Remove Position");
+		mnPositions.add(mntmRemovePosition);
+		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
@@ -176,24 +186,24 @@ public class HomeScreen extends JFrame {
 		getContentPane().setLayout(null);
 		
 		weekSpinner = new JSpinner();
-		weekSpinner.setModel(new SpinnerNumberModel(getWeek(), 0, getWeeksOfYear(YEAR)+1, 1));
+		weekSpinner.setModel(new SpinnerNumberModel(Utilities.getWeek(), 0, Utilities.getWeeksOfYear(YEAR)+1, 1));
 		weekSpinner.setBounds(57, 10, 47, 20);
 		weekSpinner.addChangeListener(new JSpinnerListener(){
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				int value = (Integer) weekSpinner.getValue();
-				if(value > getWeeksOfYear(YEAR)){
+				if(value > Utilities.getWeeksOfYear(YEAR)){
 					YEAR++;
 					value = 1;
-					weekSpinner.setModel(new SpinnerNumberModel(value, 0, getWeeksOfYear(YEAR)+1, 1));
+					weekSpinner.setModel(new SpinnerNumberModel(value, 0, Utilities.getWeeksOfYear(YEAR)+1, 1));
 
 				}else if(value < 1){
 					YEAR--;
-					value = getWeeksOfYear(YEAR);
-					weekSpinner.setModel(new SpinnerNumberModel(value, 0, getWeeksOfYear(YEAR)+1, 1));
+					value = Utilities.getWeeksOfYear(YEAR);
+					weekSpinner.setModel(new SpinnerNumberModel(value, 0, Utilities.getWeeksOfYear(YEAR)+1, 1));
 				}
-				dateTextField.setText(getDate(value, YEAR));
+				dateTextField.setText(Utilities.getDate(value, YEAR));
 				//System.out.println("Weeks: "+getWeeksOfYear(YEAR)+" Year: "+YEAR); //For Debugging
 				table.repaint();
 			}
@@ -213,14 +223,14 @@ public class HomeScreen extends JFrame {
 		
 		dateTextField = new JTextField();
 		dateTextField.setEditable(false);
-		dateTextField.setText(getDate(getWeek(), YEAR));
+		dateTextField.setText(Utilities.getDate(Utilities.getWeek(), YEAR));
 		dateTextField.setBounds(161, 10, 79, 20);
 		getContentPane().add(dateTextField);
 		dateTextField.setColumns(10);
 		
 		table = new ScheduleTable(29);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultRenderer(new TableRenderer(getDayOfWeek(), getWeek(), table, weekSpinner));
+		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(), Utilities.getWeek(), table, weekSpinner));
 		table.setBounds(20, 41, 754, 480);
 		getContentPane().add(table);
 		
@@ -229,46 +239,5 @@ public class HomeScreen extends JFrame {
 	
 	public void openEmployeeManager(){
 		new EditEmployeeFrame(this);
-	}
-	
-	public int getWeek(){
-		Calendar now = Calendar.getInstance();
-		return now.get(Calendar.WEEK_OF_YEAR);
-	}
-	
-	public int getWeeksOfYear(int year) {
-		Calendar cal = new GregorianCalendar();
-		cal.set(year, Calendar.JANUARY, 1);
-		return cal.getWeeksInWeekYear();
-	}  
-	
-	public int getDayOfWeek(){
-		Calendar cal = Calendar.getInstance();
-		
-		return cal.get(Calendar.DAY_OF_WEEK);
-	}
-	
-	public String getDate(int week, int year){
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.clear();
-		calendar.set(Calendar.WEEK_OF_YEAR, week);
-		calendar.set(Calendar.YEAR, year);
-
-		Date date = calendar.getTime();
-		//System.out.println(dateFormat.format(date)); //TODO Debug
-		return dateFormat.format(date);
-	}
-	
-	public int getYear(){
-		return Calendar.getInstance().get(Calendar.YEAR);
-	}
-	
-	public String getDate(){
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = new Date();
-		return dateFormat.format(date);
 	}
 }

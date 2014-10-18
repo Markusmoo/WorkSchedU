@@ -16,6 +16,7 @@ import javax.swing.SpinnerListModel;
 import ca.tonsaker.workschedu.HomeScreen;
 import ca.tonsaker.workschedu.ScheduleTable;
 import ca.tonsaker.workschedu.TableRenderer;
+import ca.tonsaker.workschedu.settings.Utilities;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -117,8 +118,8 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 
 		table = new ScheduleTable(1);
 		table.setBounds(10, 100, 564, 32);
-		table.setDefaultRenderer(new TableRenderer(homeScreen.getDayOfWeek(),
-				homeScreen.getWeek(), table, homeScreen.weekSpinner));
+		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(),
+				Utilities.getWeek(), table, homeScreen.weekSpinner));
 		table.setRowSelectionAllowed(false);
 		contentPane.add(table);
 
@@ -130,11 +131,10 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		btnCancel.setBounds(485, 327, 89, 23);
 		contentPane.add(btnCancel);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setToolTipText("Which day to schedule for");
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "Sunday",
+		JComboBox comboBox_1 = new JComboBox(new String[] { "Sunday",
 				"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-				"Saturday" }));
+				"Saturday" });
+		comboBox_1.setToolTipText("Which day to schedule for");
 		comboBox_1.setBounds(43, 171, 82, 20);
 		contentPane.add(comboBox_1);
 
@@ -243,6 +243,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		contentPane.add(lblPosition);
 		
 		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setToolTipText("The position in which the Employee works");
 		comboBox_2.setBounds(396, 69, 178, 20);
 		contentPane.add(comboBox_2);
 		this.setVisible(true);

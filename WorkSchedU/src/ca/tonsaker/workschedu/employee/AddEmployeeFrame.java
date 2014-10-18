@@ -1,6 +1,4 @@
 package ca.tonsaker.workschedu.employee;
-
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,10 +14,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
 
-import java.awt.Font;
-
-import javax.swing.ImageIcon;
-
 public class AddEmployeeFrame extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
@@ -28,22 +22,6 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 
 	private JButton btnCancel;
 	private JButton btnAdd;
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddEmployeeFrame frame = new AddEmployeeFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
