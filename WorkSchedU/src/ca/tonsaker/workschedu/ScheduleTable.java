@@ -37,7 +37,7 @@ public class ScheduleTable extends JTable{
 				}
 			};
 		
-		for(int i = numRows; numRows>0; numRows--){
+		for(int i = numRows; i>0; i--){
 			dfTable.addRow(new Vector());
 		}
 		

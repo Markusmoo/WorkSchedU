@@ -17,23 +17,24 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
 public class Employee { 
-	//TODO remember to implement user hours accordingly to week
 	//TODO Create DeleteEmployeeFrame.java
 	
 	//http://www.apache.org/licenses/LICENSE-2.0
-	//http://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/index.html
-	//http://www.javacreed.com/simple-gson-example/
-	
-	private ScheduleTable scdTable;
 	
 	@Expose private String EMPLOYEE_NAME = "";
 	@Expose private String EMPLOYEE_EMAIL = "";
 	@Expose private String EMPLOYEE_USERNAME = "";
 	@Expose private String EMPLOYEE_POSITION = "";
 	
-	//TODO Go off by date
-	@Expose private Week[] weeks; //TODO Debug Should be done in add employee menu
+	@Expose private Week[] weeks;
 			private int referenceWeekIdx;
+			
+			private ScheduleTable scdTable;
+			
+	public Employee(){
+		weeks = new Week[]{new Week("IGNORE")};
+		scdTable = new ScheduleTable(1);
+	}
 	
 	public String toString(){
 		return this.EMPLOYEE_NAME;

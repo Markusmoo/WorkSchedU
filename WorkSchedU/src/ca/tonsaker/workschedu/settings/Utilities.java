@@ -45,7 +45,12 @@ public abstract class Utilities {
 
 		Positions p = new Positions();
 		p = gson.fromJson(reader, Positions.class);
-		return p.POSITIONS;
+		if(p == null || p.POSITIONS == null){
+			System.out.println("WARNING: No positions found.");
+			return null;
+		}else{
+			return p.POSITIONS;
+		}
 	}
 	
 	public static int[] loadPositionSort() throws FileNotFoundException{

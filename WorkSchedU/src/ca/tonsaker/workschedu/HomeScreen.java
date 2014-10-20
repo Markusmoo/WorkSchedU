@@ -15,12 +15,6 @@ import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.JSpinner;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -28,10 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ImageIcon;
 
+import ca.tonsaker.workschedu.employee.AddEmployeeFrame;
 import ca.tonsaker.workschedu.employee.EditEmployeeFrame;
 import ca.tonsaker.workschedu.settings.Utilities;
 
-public class HomeScreen extends JFrame {
+public class HomeScreen extends JFrame implements ActionListener {
 	
 	/**
 	 * 
@@ -42,16 +37,14 @@ public class HomeScreen extends JFrame {
 	public JTextField dateTextField;
 	public JSpinner weekSpinner;
 	
+	//Action Listeners
+	JMenuItem mntmEditEmployeeSchedule;
+	JMenuItem mntmAddEmployee;
+	JMenuItem mntmRemoveEmployee;
+	
 	
 	//TODO Testing Values.  Make employee object storing total week hours, add save and load data with strings.
 	private ScheduleTable table;
-	
-	public class JSpinnerListener implements ChangeListener{
-
-		@Override
-		public void stateChanged(ChangeEvent e) {}
-
-	}
 	
 	/**
 	 * Launch the application.
@@ -84,40 +77,6 @@ public class HomeScreen extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		
-		//TODO Debug
-		this.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("(Mouse: x:"+arg0.getX()+" y:"+arg0.getY()+")");
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -141,38 +100,44 @@ public class HomeScreen extends JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mnFile.add(mntmExit);
 		
+		
+		//Employees JMenu
 		JMenu mnEmployees = new JMenu("Employees");
 		menuBar.add(mnEmployees);
 		
-		JMenuItem mntmAddEmployee = new JMenuItem("Add Employee");
+		mntmAddEmployee = new JMenuItem("Add Employee");
+		mntmAddEmployee.addActionListener(this);
 		mnEmployees.add(mntmAddEmployee);
 		
-		JMenuItem mntmEditEmployeeSchedule = new JMenuItem("Edit Employee SchedU");
-		mntmEditEmployeeSchedule.addActionListener(new ActionListener(){
-			
-			public void actionPerformed(ActionEvent e) {
-			    System.out.println("Selected: " + e.getActionCommand());
-			    openEmployeeManager();
-			  }
-			
-		});
+		mntmEditEmployeeSchedule = new JMenuItem("Edit Employee SchedU");
+		mntmEditEmployeeSchedule.addActionListener(this);
 		mnEmployees.add(mntmEditEmployeeSchedule);
 		
-		JMenuItem mntmRemoveEmployee = new JMenuItem("Remove Employee");
+		mntmRemoveEmployee = new JMenuItem("Remove Employee");
+		mntmRemoveEmployee.addActionListener(this);
 		mnEmployees.add(mntmRemoveEmployee);
+
 		
-		JMenuItem mntmViewEmployeeInfo = new JMenuItem("View Employee Info");
-		mnEmployees.add(mntmViewEmployeeInfo);
-		
+		//Positions JMenu
 		JMenu mnPositions = new JMenu("Positions");
 		menuBar.add(mnPositions);
 		
 		JMenuItem mntmAddPosition = new JMenuItem("Add Position");
+		mnPositions.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+			
+		});
 		mnPositions.add(mntmAddPosition);
 		
 		JMenuItem mntmRemovePosition = new JMenuItem("Remove Position");
 		mnPositions.add(mntmRemovePosition);
 		
+		
+		//Help JMenu
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
@@ -185,10 +150,12 @@ public class HomeScreen extends JFrame {
 		mnHelp.add(mntmAbout);
 		getContentPane().setLayout(null);
 		
+		
+		
 		weekSpinner = new JSpinner();
 		weekSpinner.setModel(new SpinnerNumberModel(Utilities.getWeek(), 0, Utilities.getWeeksOfYear(YEAR)+1, 1));
 		weekSpinner.setBounds(57, 10, 47, 20);
-		weekSpinner.addChangeListener(new JSpinnerListener(){
+		weekSpinner.addChangeListener(new ChangeListener(){
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -233,11 +200,22 @@ public class HomeScreen extends JFrame {
 		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(), Utilities.getWeek(), table, weekSpinner));
 		table.setBounds(20, 41, 754, 480);
 		getContentPane().add(table);
-		
-		//new EmployeeFrame(this); TODO debug
 	}
 	
 	public void openEmployeeManager(){
-		new EditEmployeeFrame(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("Selected: " + e.getActionCommand());
+		Object src = e.getSource();
+		
+		if(src == mntmEditEmployeeSchedule){
+			new EditEmployeeFrame(this);
+		}else if(src == mntmAddEmployee){
+			new AddEmployeeFrame();
+		}else if (src == mntmRemoveEmployee){
+			//TODO STUB
+		} //TODO Add rest of actions
 	}
 }

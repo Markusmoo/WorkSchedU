@@ -4,6 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
@@ -23,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import javax.swing.JFormattedTextField;
 
 public class EditEmployeeFrame extends JFrame implements ActionListener{
 
@@ -38,7 +43,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private JTextField textField_5;
+	private JFormattedTextField textField_5;
 	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
 	
@@ -49,15 +54,22 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 	private Employee[] TEMP_EMPLOYEES;
 	private Employee selectedEmployee;
 	
+	public static final String[] MIN_30_TIMES = new String[] { "1:00am",
+		"1:30am", "2:00am", "2:30am", "3:00am", "3:30am", "4:00am",
+		"4:30am", "5:00am", "5:30am", "6:00am", "6:30am", "7:00am",
+		"7:30am", "8:00am", "8:30am", "9:00am", "9:30am", "10:00am",
+		"10:30am", "11:00am", "11:30am", "12:00pm","12:30pm", "1:00pm", 
+		"1:30pm", "2:00pm", "2:30pm", "3:00pm", "3:30pm",
+		"4:00pm", "4:30pm", "5:00pm", "5:30pm", "6:00pm", "6:30pm",
+		"7:00pm", "7:30pm", "8:00pm", "8:30pm", "9:00pm", "9:30pm",
+		"10:00pm", "10:30pm", "11:00pm", "11:30pm", "12:00am", "12:30am"};
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public EditEmployeeFrame(HomeScreen homeScreen) {
+		
+		//Frame stuff
 		setTitle("Employee SchedU Manager");
 		this.homeScreen = homeScreen;
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
 		setResizable(false);
@@ -70,6 +82,9 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		week = homeScreen.weekSpinner.getValue().toString();
 		date = homeScreen.dateTextField.getText();
 		
+		JLabel lblEmployee = new JLabel("Employee:");
+		lblEmployee.setBounds(10, 14, 50, 14);
+		contentPane.add(lblEmployee);
 		comboBox = new JComboBox();
 		comboBox.setToolTipText("Employee's Name");
 		comboBox.setModel(new DefaultComboBoxModel(employeeArray));
@@ -88,14 +103,9 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		});
 		contentPane.add(comboBox);
 
-		JLabel lblEmployee = new JLabel("Employee:");
-		lblEmployee.setBounds(10, 14, 50, 14);
-		contentPane.add(lblEmployee);
-
 		JLabel lblWeek = new JLabel("Week:");
 		lblWeek.setBounds(355, 14, 31, 14);
 		contentPane.add(lblWeek);
-
 		textField = new JTextField();
 		textField.setToolTipText("Week scheduling for");
 		textField.setEditable(false);
@@ -107,7 +117,6 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		JLabel lblNewLabel = new JLabel("Date:");
 		lblNewLabel.setBounds(447, 14, 31, 14);
 		contentPane.add(lblNewLabel);
-
 		textField_1 = new JTextField();
 		textField_1.setToolTipText("Date scheduling for");
 		textField_1.setEditable(false);
@@ -123,14 +132,9 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		table.setRowSelectionAllowed(false);
 		contentPane.add(table);
 
-		JButton btnSaveAndExit = new JButton("Save and Exit");
-		btnSaveAndExit.setBounds(379, 327, 99, 23);
-		contentPane.add(btnSaveAndExit);
-
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(485, 327, 89, 23);
-		contentPane.add(btnCancel);
-
+		JLabel lblDay = new JLabel("Day:");
+		lblDay.setBounds(10, 174, 23, 14);
+		contentPane.add(lblDay);
 		JComboBox comboBox_1 = new JComboBox(new String[] { "Sunday",
 				"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
 				"Saturday" });
@@ -138,63 +142,33 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		comboBox_1.setBounds(43, 171, 82, 20);
 		contentPane.add(comboBox_1);
 
-		JLabel lblDay = new JLabel("Day:");
-		lblDay.setBounds(10, 174, 23, 14);
-		contentPane.add(lblDay);
-
-		JSpinner spinner = new JSpinner();
-		spinner.setToolTipText("What time the employee works from that day");
-		spinner.setModel(new SpinnerListModel(new String[] { "1:00am",
-				"1:30am", "2:00am", "2:30am", "3:00am", "3:30am", "4:00am",
-				"4:30am", "5:00am", "5:30am", "6:00am", "6:30am", "7:00am",
-				"7:30am", "8:00am", "8:30am", "9:00am", "9:30am", "10:00am",
-				"10:30am", "11:00am", "11:30am", "12:00am", "12:30am",
-				"1:00pm", "1:30pm", "2:00pm", "2:30pm", "3:00pm", "3:30pm",
-				"4:00pm", "4:30pm", "5:00pm", "5:30pm", "6:00pm", "6:30pm",
-				"7:00pm", "7:30pm", "8:00pm", "8:30pm", "9:00pm", "9:30pm",
-				"10:00pm", "10:30pm", "11:00pm", "11:30pm", "12:00pm",
-				"12:30pm" }));
-		spinner.setBounds(43, 202, 82, 20);
-		contentPane.add(spinner);
-
 		JLabel lblFrom = new JLabel("From:");
 		lblFrom.setBounds(10, 202, 46, 14);
 		contentPane.add(lblFrom);
+		JSpinner spinner = new JSpinner();
+		spinner.setToolTipText("What time the employee works from that day");
+		spinner.setModel(new SpinnerListModel(MIN_30_TIMES));
+		spinner.setBounds(43, 202, 82, 20);
+		contentPane.add(spinner);
 
 		JLabel lblTo = new JLabel("To:");
 		lblTo.setBounds(10, 233, 46, 14);
 		contentPane.add(lblTo);
-
 		JSpinner spinner_1 = new JSpinner();
 		spinner_1.setToolTipText("What time employee works til that day");
-		spinner_1.setModel(new SpinnerListModel(new String[] { "1:00am",
-				"1:30am", "2:00am", "2:30am", "3:00am", "3:30am", "4:00am",
-				"4:30am", "5:00am", "5:30am", "6:00am", "6:30am", "7:00am",
-				"7:30am", "8:00am", "8:30am", "9:00am", "9:30am", "10:00am",
-				"10:30am", "11:00am", "11:30am", "12:00am", "12:30am",
-				"1:00pm", "1:30pm", "2:00pm", "2:30pm", "3:00pm", "3:30pm",
-				"4:00pm", "4:30pm", "5:00pm", "5:30pm", "6:00pm", "6:30pm",
-				"7:00pm", "7:30pm", "8:00pm", "8:30pm", "9:00pm", "9:30pm",
-				"10:00pm", "10:30pm", "11:00pm", "11:30pm", "12:00pm",
-				"12:30pm" }));
+		spinner_1.setModel(new SpinnerListModel(MIN_30_TIMES));
 		spinner_1.setBounds(43, 233, 82, 20);
 		contentPane.add(spinner_1);
 
 		JLabel lblTotalHours = new JLabel("Total Hours:");
 		lblTotalHours.setBounds(10, 267, 61, 14);
 		contentPane.add(lblTotalHours);
-
 		textField_2 = new JTextField();
 		textField_2.setToolTipText("Total hours that day");
 		textField_2.setEditable(false);
 		textField_2.setBounds(75, 264, 50, 20);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
-
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(10, 327, 89, 23);
-		btnSave.addActionListener(this);
-		contentPane.add(btnSave);
 
 		JLabel lblScheduDayEdit = new JLabel("SchedU Day Edit");
 		lblScheduDayEdit.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -218,34 +192,67 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		lblTotalHours_1.setBounds(442, 146, 61, 14);
 		contentPane.add(lblTotalHours_1);
 
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setBounds(10, 45, 31, 14);
+		contentPane.add(lblEmail);
 		textField_4 = new JTextField();
 		textField_4.setToolTipText("Employee's Email Address");
 		textField_4.setBounds(43, 42, 187, 20);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 
-		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(10, 45, 31, 14);
-		contentPane.add(lblEmail);
-
 		JLabel lblEmployeeUsername = new JLabel("Employee Username:");
 		lblEmployeeUsername.setBounds(10, 73, 105, 14);
 		contentPane.add(lblEmployeeUsername);
-
-		textField_5 = new JTextField();
-		textField_5.setToolTipText("The username the employee clocks in with");
+		textField_5 = new JFormattedTextField();
+		textField_5.setToolTipText("The username the employee clocks in with (Usually numbers)");
 		textField_5.setBounds(115, 70, 115, 20);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
+		@SuppressWarnings("serial")
+		Document doc = new PlainDocument() {
+		    @Override
+		    public void insertString(int offs, String str, AttributeSet attr)
+		    throws BadLocationException {
+		        String newstr = str.replaceAll(" ", "");
+		        super.insertString(offs, newstr, attr);
+		    }
+
+		    @Override
+		    public void replace(int offs, int len, String str, AttributeSet attr) 
+		    throws BadLocationException {
+		        String newstr = str.replaceAll(" ", "");
+		        super.replace(offs, len, newstr, attr);
+		    }
+		};
+		textField_5.setDocument(doc);
 		
 		JLabel lblPosition = new JLabel("Position:");
 		lblPosition.setBounds(345, 75, 41, 14);
 		contentPane.add(lblPosition);
-		
 		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setEditable(true);
 		comboBox_2.setToolTipText("The position in which the Employee works");
 		comboBox_2.setBounds(396, 69, 178, 20);
 		contentPane.add(comboBox_2);
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(10, 327, 89, 23);
+		btnSave.addActionListener(this);
+		contentPane.add(btnSave);
+		
+		JButton btnSaveAndExit = new JButton("Save and Exit");
+		btnSaveAndExit.setBounds(379, 327, 99, 23);
+		contentPane.add(btnSaveAndExit);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBounds(485, 327, 89, 23);
+		contentPane.add(btnCancel);
+		
+		if(comboBox.getSelectedItem() instanceof Employee){
+			selectedEmployee = (Employee) comboBox.getSelectedItem();
+			updateEmployeeFrame(selectedEmployee);
+		}
 		this.setVisible(true);
 	}
 	
@@ -299,8 +306,8 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		if(src == comboBox){
 			if(comboBox.getSelectedItem() instanceof Employee){
 				selectedEmployee = (Employee) comboBox.getSelectedItem();
+				updateEmployeeFrame(selectedEmployee);
 			}
-			updateEmployeeFrame(selectedEmployee);
 		}
 	}
 }
