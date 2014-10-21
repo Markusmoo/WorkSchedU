@@ -67,7 +67,9 @@ public class HomeScreen extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public HomeScreen() {
+		Utilities.initializeFiles();
 		YEAR = Utilities.getYear();
+		
 		try { 
 		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {

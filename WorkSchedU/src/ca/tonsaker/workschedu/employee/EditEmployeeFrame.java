@@ -20,6 +20,7 @@ import javax.swing.SpinnerListModel;
 import ca.tonsaker.workschedu.HomeScreen;
 import ca.tonsaker.workschedu.ScheduleTable;
 import ca.tonsaker.workschedu.TableRenderer;
+import ca.tonsaker.workschedu.settings.Positions;
 import ca.tonsaker.workschedu.settings.Utilities;
 
 import java.awt.Font;
@@ -27,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import javax.swing.JFormattedTextField;
 
 public class EditEmployeeFrame extends JFrame implements ActionListener{
@@ -44,8 +46,11 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JFormattedTextField textField_5;
+	
 	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
+	@SuppressWarnings("rawtypes")
+	private JComboBox comboBox_2;
 	
 	private String date;
 	private String week;
@@ -229,11 +234,20 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		JLabel lblPosition = new JLabel("Position:");
 		lblPosition.setBounds(345, 75, 41, 14);
 		contentPane.add(lblPosition);
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setEditable(true);
-		comboBox_2.setToolTipText("The position in which the Employee works");
-		comboBox_2.setBounds(396, 69, 178, 20);
-		contentPane.add(comboBox_2);
+		try {
+			comboBox_2 = new JComboBox(Positions.loadPositions());
+			comboBox_2.setEditable(true);
+			comboBox_2.setToolTipText("The position in which the Employee works");
+			comboBox_2.setBounds(396, 69, 178, 20);
+			contentPane.add(comboBox_2);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			comboBox_2 = new JComboBox();
+			comboBox_2.setEditable(true);
+			comboBox_2.setToolTipText("The position in which the Employee works");
+			comboBox_2.setBounds(396, 69, 178, 20);
+			contentPane.add(comboBox_2);
+		}
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.setBounds(10, 327, 89, 23);
@@ -295,6 +309,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		employee.setDate(date);
 		textField_4.setText(employee.getEmail());
 		textField_5.setText(employee.getUsername());
+		comboBox_2.setSelectedItem(employee.getPosition());
 		
 		System.out.println("Update Successful!");
 	}

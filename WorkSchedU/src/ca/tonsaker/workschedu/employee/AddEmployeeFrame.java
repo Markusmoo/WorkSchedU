@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import javax.swing.JComboBox;
 
+import ca.tonsaker.workschedu.settings.Positions;
 import ca.tonsaker.workschedu.settings.Utilities;
 
 import java.awt.Font;
@@ -132,7 +133,7 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 			JLabel lblPosition = new JLabel("Position:");
 			lblPosition.setBounds(76, 112, 41, 14);
 			contentPane.add(lblPosition);
-			String[] positions = Utilities.loadPositions();
+			String[] positions = Positions.loadPositions();
 			if(positions != null){
 				comboBox_1 = new JComboBox(positions);
 				comboBox_1.setBounds(127, 106, 200, 20);

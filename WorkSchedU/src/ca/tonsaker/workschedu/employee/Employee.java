@@ -62,6 +62,7 @@ public class Employee {
 
 	public boolean save() throws IOException{
 		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\user"+this.EMPLOYEE_USERNAME+".json";
+		new File(System.getenv("APPDATA")+"\\WorkSchedU\\Employees").mkdirs();
 		Writer writer = new OutputStreamWriter(new FileOutputStream(path));
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		

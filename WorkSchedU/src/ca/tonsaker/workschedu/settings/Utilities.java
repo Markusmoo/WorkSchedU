@@ -14,56 +14,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import ca.tonsaker.workschedu.employee.Employee;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public abstract class Utilities {
-
-	public static boolean savePositions(String[] positions, int[] sortNums) throws IOException{
-		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Settings\\positions.json";
-		Writer writer = new OutputStreamWriter(new FileOutputStream(path));
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-		
-		Positions p = new Positions();
-		p.POSITIONS = positions;
-		p.SORT_NUM = sortNums;
-		
-		writer.write(gson.toJson(p));
-		writer.flush();
-		writer.close();
-		
-		System.out.println("Positions JSON file successfully saved to: "+path); 
-		return true;
-	}
-	
-	public static String[] loadPositions() throws FileNotFoundException{
-		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Settings\\positions.json";
-		FileInputStream file = new FileInputStream(path);
-		
-		Reader reader = new InputStreamReader(file);
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-
-		Positions p = new Positions();
-		p = gson.fromJson(reader, Positions.class);
-		if(p == null || p.POSITIONS == null){
-			System.out.println("WARNING: No positions found.");
-			return null;
-		}else{
-			return p.POSITIONS;
-		}
-	}
-	
-	public static int[] loadPositionSort() throws FileNotFoundException{
-		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Settings\\positions.json";
-		FileInputStream file = new FileInputStream(path);
-		
-		Reader reader = new InputStreamReader(file);
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-
-		Positions p = new Positions();
-		p = gson.fromJson(reader, Positions.class);
-		return p.SORT_NUM;
-	}
 	
 	public static String getDate(int week, int year){
 
@@ -110,5 +66,26 @@ public abstract class Utilities {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		return dateFormat.format(date);
+	}
+	
+	public static void initializeFiles(){
+		try{
+			Positions.loadPositions();
+		}catch(Exception e){
+			try {
+				Positions.savePositions(new String[]{"Crew"}, new int[]{0});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		try {
+			Employee.load();
+		} catch (Exception e) {
+			try {
+				new Employee().save();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 }
