@@ -2,7 +2,6 @@ package ca.tonsaker.workschedu.employee;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -12,7 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
-import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
@@ -27,7 +25,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javax.swing.JFormattedTextField;
 
@@ -313,7 +310,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		
 		System.out.println("Update Successful!");
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
