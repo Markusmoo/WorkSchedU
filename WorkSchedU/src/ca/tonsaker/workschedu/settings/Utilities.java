@@ -71,6 +71,7 @@ public abstract class Utilities {
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.clear();
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
 		calendar.set(Calendar.WEEK_OF_YEAR, week);
 		calendar.set(Calendar.YEAR, year);
 
@@ -81,18 +82,23 @@ public abstract class Utilities {
 	
 	public static int getDayOfWeek(){
 		Calendar cal = Calendar.getInstance();
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		
 		return cal.get(Calendar.DAY_OF_WEEK);
 	}
 	
 	public static int getWeek(){
-		Calendar now = Calendar.getInstance();
-		return now.get(Calendar.WEEK_OF_YEAR);
+		Calendar cal = Calendar.getInstance();
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		
+		return cal.get(Calendar.WEEK_OF_YEAR);
 	}
 	
 	public static int getWeeksOfYear(int year) {
 		Calendar cal = new GregorianCalendar();
 		cal.set(year, Calendar.JANUARY, 1);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		
 		return cal.getWeeksInWeekYear();
 	}
 	

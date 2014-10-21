@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Calendar;
 
 import ca.tonsaker.workschedu.ScheduleTable;
 
@@ -42,13 +43,13 @@ public class Employee {
 				+", EMPLOYEE_EMAIL="+this.EMPLOYEE_EMAIL
 				+", EMPLOYEE_USERNAME="+this.EMPLOYEE_USERNAME
 				+", TOTAL_HOURS_WEEK="+this.TOTAL_HOURS_WEEK
-				+", TOTAL_HOURS_SUNDAY="+this.TOTAL_HOURS_SUNDAY
 				+", TOTAL_HOURS_MONDAY="+this.TOTAL_HOURS_MONDAY
 				+", TOTAL_HOURS_TUESDAY="+this.TOTAL_HOURS_TUESDAY
 				+", TOTAL_HOURS_WEDNESDAY="+this.TOTAL_HOURS_WEDNESDAY
 				+", TOTAL_HOURS_THURSDAY="+this.TOTAL_HOURS_THURSDAY
 				+", TOTAL_HOURS_FRIDAY="+this.TOTAL_HOURS_FRIDAY
 				+", TOTAL_HOURS_SATURDAY="+this.TOTAL_HOURS_SATURDAY
+				+", TOTAL_HOURS_SUNDAY="+this.TOTAL_HOURS_SUNDAY
 				+", SUNDAY_HOURS="+this.SUNDAY_HOURS
 				+", MONDAY_HOURS="+this.MONDAY_HOURS
 				+", TUESDAY_HOURS="+this.TUESDAY_HOURS
@@ -185,14 +186,14 @@ public class Employee {
 		String time;
 		time = fromTime12 + "-" + toTime12;
 		switch(day){
-			case 0: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].SUNDAY_HOURS = time; break;
-			case 1: scdTable.setCell(1, 2, time); weeks[referenceWeekIdx].MONDAY_HOURS = time; break;
-			case 2: scdTable.setCell(1, 3, time); weeks[referenceWeekIdx].TUESDAY_HOURS = time; break;
-			case 3: scdTable.setCell(1, 4, time); weeks[referenceWeekIdx].WEDNESDAY_HOURS = time; break;
-			case 4: scdTable.setCell(1, 5, time); weeks[referenceWeekIdx].THURSDAY_HOURS = time; break;
-			case 5: scdTable.setCell(1, 6, time); weeks[referenceWeekIdx].FRIDAY_HOURS = time; break;
-			case 6: scdTable.setCell(1, 7, time); weeks[referenceWeekIdx].SATURDAY_HOURS = time; break;
-			default: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].SUNDAY_HOURS = time; break;
+			case Calendar.MONDAY: scdTable.setCell(1, 2, time); weeks[referenceWeekIdx].MONDAY_HOURS = time; break;
+			case Calendar.TUESDAY: scdTable.setCell(1, 3, time); weeks[referenceWeekIdx].TUESDAY_HOURS = time; break;
+			case Calendar.WEDNESDAY: scdTable.setCell(1, 4, time); weeks[referenceWeekIdx].WEDNESDAY_HOURS = time; break;
+			case Calendar.THURSDAY: scdTable.setCell(1, 5, time); weeks[referenceWeekIdx].THURSDAY_HOURS = time; break;
+			case Calendar.FRIDAY: scdTable.setCell(1, 6, time); weeks[referenceWeekIdx].FRIDAY_HOURS = time; break;
+			case Calendar.SATURDAY: scdTable.setCell(1, 7, time); weeks[referenceWeekIdx].SATURDAY_HOURS = time; break;
+			case Calendar.SUNDAY: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].SUNDAY_HOURS = time; break;
+			default: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].MONDAY_HOURS = time; break;
 		}
 		
 		return scdTable;
@@ -200,26 +201,26 @@ public class Employee {
 	
 	public double getTotalDayHours(int day){
 		switch(day){
-			case 0: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
-			case 1: return weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY;
-			case 2: return weeks[referenceWeekIdx].TOTAL_HOURS_TUESDAY;
-			case 3: return weeks[referenceWeekIdx].TOTAL_HOURS_WEDNESDAY;
-			case 4: return weeks[referenceWeekIdx].TOTAL_HOURS_THURSDAY;
-			case 5: return weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY;
-			case 6: return weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY;
+			case Calendar.MONDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY;
+			case Calendar.TUESDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_TUESDAY;
+			case Calendar.WEDNESDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_WEDNESDAY;
+			case Calendar.THURSDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_THURSDAY;
+			case Calendar.FRIDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY;
+			case Calendar.SATURDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY;
+			case Calendar.SUNDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
 			default: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
 		}
 	}
 	
 	public double getTotalWeekHours(){
 		return weeks[referenceWeekIdx].TOTAL_HOURS_WEEK =
-				weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_TUESDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_WEDNESDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_THURSDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY+
-				weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY;
+				weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY+
+				weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
 	}
 	
 	public double convertTimeHoursToDouble24Hour(String time){ //TODO Check if messes up with 12am/pm due to.. 12am, 1am, 2am, ext.

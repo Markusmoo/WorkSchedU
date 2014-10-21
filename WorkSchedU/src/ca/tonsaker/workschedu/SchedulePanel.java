@@ -17,7 +17,7 @@ public class SchedulePanel extends JPanel{
 	private int horizontalLines = 0;
 	private int verticalLines = 0;
 	
-	private String[] headers = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+	private String[] headers = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
 	public SchedulePanel(int columns) {
 		super(new GridBagLayout());

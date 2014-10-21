@@ -1,5 +1,4 @@
 package ca.tonsaker.workschedu.employee;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,17 +19,11 @@ import java.awt.event.ActionEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 import javax.swing.JComboBox;
 
 import ca.tonsaker.workschedu.settings.Utilities;
 
-import javax.swing.ButtonGroup;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.Font;
 import java.awt.Color;
 

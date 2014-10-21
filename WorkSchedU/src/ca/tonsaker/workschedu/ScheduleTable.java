@@ -19,10 +19,10 @@ public class ScheduleTable extends JTable{
 		
 		DefaultTableModel dfTable = new DefaultTableModel(
 				new Object[][] {
-					{"Names:", "Sunday:", "Monday:", "Tuesday:", "Wednesday:", "Thursday:", "Friday:", "Saturday:"}
+					{"Names:", "Monday:", "Tuesday:", "Wednesday:", "Thursday:", "Friday:", "Saturday:", "Sunday:"}
 				},
 				new String[] {
-					"Names:", "Sunday:", "Monday:", "Tuesday:", "Wednesday:", "Thursday:", "Friday:", "Saturday:"
+					"Names:", "Monday:", "Tuesday:", "Wednesday:", "Thursday:", "Friday:", "Saturday:", "Sunday:"
 				}
 			){
 				/**

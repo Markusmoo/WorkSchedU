@@ -135,9 +135,8 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		JLabel lblDay = new JLabel("Day:");
 		lblDay.setBounds(10, 174, 23, 14);
 		contentPane.add(lblDay);
-		JComboBox comboBox_1 = new JComboBox(new String[] { "Sunday",
-				"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-				"Saturday" });
+		JComboBox comboBox_1 = new JComboBox(new String[] {"Monday", 
+				"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"});
 		comboBox_1.setToolTipText("Which day to schedule for");
 		comboBox_1.setBounds(43, 171, 82, 20);
 		contentPane.add(comboBox_1);

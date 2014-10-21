@@ -1,6 +1,7 @@
 package ca.tonsaker.workschedu;
 
 import java.awt.Component;
+import java.util.Calendar;
 
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -19,7 +20,12 @@ public class TableRenderer extends DefaultTableCellRenderer {
 	JSpinner weekSpinner;
 	
 	public TableRenderer(int dayOfWeek, int week, ScheduleTable table, JSpinner weekSpinner){
-		this.dayOfWeek = dayOfWeek;
+		if(dayOfWeek > Calendar.SUNDAY){
+			this.dayOfWeek = dayOfWeek-1;
+		}else if(dayOfWeek == Calendar.SUNDAY){
+			this.dayOfWeek = Calendar.SATURDAY+1;
+		}
+		
 		this.week = week;
 		this.table = table;
 		this.weekSpinner = weekSpinner;
@@ -47,9 +53,9 @@ public class TableRenderer extends DefaultTableCellRenderer {
 				c.setBackground(new java.awt.Color(160, 160, 160));
 			}
 			
-			/*if(row == 0 && column == dayOfWeek && (int) weekSpinner.getValue() == week){ //TODO Remove comments
+			if(row == 0 && column == dayOfWeek && (int) weekSpinner.getValue() == week){ //TODO Remove comments
 				c.setBackground(new java.awt.Color(208, 181, 12));
-			}*/
+			}
 		}
     
 		return c; 
