@@ -18,7 +18,7 @@ import javax.swing.SpinnerListModel;
 import ca.tonsaker.workschedu.HomeScreen;
 import ca.tonsaker.workschedu.ScheduleTable;
 import ca.tonsaker.workschedu.TableRenderer;
-import ca.tonsaker.workschedu.settings.Positions;
+import ca.tonsaker.workschedu.positions.Positions;
 import ca.tonsaker.workschedu.settings.Utilities;
 
 import java.awt.Font;

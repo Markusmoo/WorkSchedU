@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import ca.tonsaker.workschedu.employee.Employee;
+import ca.tonsaker.workschedu.positions.Positions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

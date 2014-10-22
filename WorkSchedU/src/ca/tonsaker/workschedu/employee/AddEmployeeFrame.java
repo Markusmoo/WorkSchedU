@@ -22,7 +22,7 @@ import java.io.IOException;
 
 import javax.swing.JComboBox;
 
-import ca.tonsaker.workschedu.settings.Positions;
+import ca.tonsaker.workschedu.positions.Positions;
 import ca.tonsaker.workschedu.settings.Utilities;
 
 import java.awt.Font;

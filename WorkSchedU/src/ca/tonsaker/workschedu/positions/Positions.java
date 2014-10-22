@@ -1,4 +1,4 @@
-package ca.tonsaker.workschedu.settings;
+package ca.tonsaker.workschedu.positions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +17,6 @@ import com.google.gson.annotations.Expose;
 public class Positions{ //TODO
 	
 	@Expose public String[] POSITIONS;
-	@Expose public int[] SORT_NUM;
 	
 	public static boolean savePositions(String[] positions, int[] sortNums) throws IOException{
 		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Settings\\positions.json";
@@ -26,8 +25,14 @@ public class Positions{ //TODO
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		
 		Positions p = new Positions();
-		p.POSITIONS = positions;
-		p.SORT_NUM = sortNums;
+		String[] newPositions = new String[positions.length];
+		
+		int idx = 0;
+		for(String pos : positions){
+			newPositions[idx] = "%"+sortNums[idx]+"%"+pos;
+			idx++;
+		}
+		p.POSITIONS = newPositions;
 		
 		writer.write(gson.toJson(p));
 		writer.flush();
@@ -50,19 +55,12 @@ public class Positions{ //TODO
 			System.out.println("WARNING: No positions found.");
 			return null;
 		}else{
-			return p.POSITIONS;
+			String[] newPositions = new String[p.POSITIONS.length];
+			for(String pos : p.POSITIONS){
+				System.out.println(pos.charAt(1));
+				newPositions[pos.charAt(1)] = pos.substring(3);
+			}
+			return newPositions;
 		}
-	}
-	
-	public static int[] loadPositionSort() throws FileNotFoundException{
-		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Settings\\positions.json";
-		FileInputStream file = new FileInputStream(path);
-		
-		Reader reader = new InputStreamReader(file);
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-
-		Positions p = new Positions();
-		p = gson.fromJson(reader, Positions.class);
-		return p.SORT_NUM;
 	}
 }
