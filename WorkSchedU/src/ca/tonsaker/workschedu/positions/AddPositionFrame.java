@@ -115,7 +115,7 @@ public class AddPositionFrame extends JFrame implements ActionListener{
 				idx++;
 			}
 			Positions.savePositions(newPoses);
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Unknown Error Occured", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;

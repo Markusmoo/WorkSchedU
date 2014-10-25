@@ -74,7 +74,7 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 		lblOptionalName = new JLabel("*");
 		lblOptionalName.setForeground(Color.RED);
 		lblOptionalName.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOptionalName.setToolTipText("Optional");
+		lblOptionalName.setToolTipText("Required");
 		lblOptionalName.setBounds(337, 14, 17, 14);
 		contentPane.add(lblOptionalName);
 		
@@ -106,7 +106,7 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 		lblOptionalUser = new JLabel("*");
 		lblOptionalUser.setForeground(Color.RED);
 		lblOptionalUser.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOptionalUser.setToolTipText("Optional");
+		lblOptionalUser.setToolTipText("Required");
 		lblOptionalUser.setBounds(337, 45, 17, 14);
 		contentPane.add(lblOptionalUser);
 		

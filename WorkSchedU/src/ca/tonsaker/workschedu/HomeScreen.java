@@ -46,6 +46,7 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 	
 	
 	//TODO Testing Values.  Make employee object storing total week hours, add save and load data with strings.
+	//TODO Remove raw types from JComboBoxes
 	private ScheduleTable table;
 	
 	/**
@@ -79,7 +80,8 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 		}
 		setTitle("WorkSchedU");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 900, 700);
+		setResizable(false);
 		
 		Utilities.setDarkeningPane(getRootPane());
 		
@@ -150,7 +152,11 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 		mnHelp.add(mntmAbout);
 		getContentPane().setLayout(null);
 		
-		
+		table = new ScheduleTable(35);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(), Utilities.getWeek(), table, weekSpinner));
+		table.setBounds(20, 41, 854, 576);
+		getContentPane().add(table);
 		
 		weekSpinner = new JSpinner();
 		weekSpinner.setModel(new SpinnerNumberModel(Utilities.getWeek(), 0, Utilities.getWeeksOfYear(YEAR)+1, 1));
@@ -194,12 +200,6 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 		dateTextField.setBounds(161, 10, 79, 20);
 		getContentPane().add(dateTextField);
 		dateTextField.setColumns(10);
-		
-		table = new ScheduleTable(29);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(), Utilities.getWeek(), table, weekSpinner));
-		table.setBounds(20, 41, 754, 480);
-		getContentPane().add(table);
 	}
 	
 	public void darkenPane(boolean b){

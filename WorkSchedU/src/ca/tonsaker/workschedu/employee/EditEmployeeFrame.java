@@ -25,10 +25,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 
 import javax.swing.JFormattedTextField;
 
 public class EditEmployeeFrame extends JFrame implements ActionListener{
+	
+	//TODO Loading wrong date on update, ?loads correct date on init?
 
 	/**
 	 * 
@@ -73,7 +76,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		setTitle("Employee SchedU Manager");
 		this.homeScreen = homeScreen;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
+		setBounds(100, 100, 700, 500);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,45 +93,34 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		comboBox = new JComboBox();
 		comboBox.setToolTipText("Employee's Name");
 		comboBox.setModel(new DefaultComboBoxModel(employeeArray));
+		comboBox.addActionListener(this);
 		comboBox.setBounds(66, 11, 164, 20);
-		comboBox.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JComboBox box = (JComboBox) e.getSource();
-				if(box.getSelectedItem() instanceof Employee){
-					selectedEmployee = (Employee) box.getSelectedItem();
-				}
-				updateEmployeeFrame(selectedEmployee);
-			}
-			
-		});
 		contentPane.add(comboBox);
 
 		JLabel lblWeek = new JLabel("Week:");
-		lblWeek.setBounds(355, 14, 31, 14);
+		lblWeek.setBounds(454, 14, 31, 14);
 		contentPane.add(lblWeek);
 		textField = new JTextField();
 		textField.setToolTipText("Week scheduling for");
 		textField.setEditable(false);
-		textField.setBounds(396, 11, 41, 20);
+		textField.setBounds(495, 11, 41, 20);
 		textField.setText(week);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("Date:");
-		lblNewLabel.setBounds(447, 14, 31, 14);
+		lblNewLabel.setBounds(546, 14, 31, 14);
 		contentPane.add(lblNewLabel);
 		textField_1 = new JTextField();
 		textField_1.setToolTipText("Date scheduling for");
 		textField_1.setEditable(false);
-		textField_1.setBounds(488, 11, 86, 20);
+		textField_1.setBounds(587, 11, 86, 20);
 		textField_1.setText(date);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 
 		table = new ScheduleTable(1);
-		table.setBounds(10, 100, 564, 32);
+		table.setBounds(10, 100, 674, 32);
 		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(),
 				Utilities.getWeek(), table, homeScreen.weekSpinner));
 		table.setRowSelectionAllowed(false);
@@ -179,18 +171,18 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		JButton btnClearEntries = new JButton("Clear Entries");
 		btnClearEntries
 				.setToolTipText("Clears all scheduled times (this week only)");
-		btnClearEntries.setBounds(469, 170, 105, 23);
+		btnClearEntries.setBounds(568, 193, 105, 23);
 		contentPane.add(btnClearEntries);
 
 		textField_3 = new JTextField();
 		textField_3.setToolTipText("Total number hours working this week");
 		textField_3.setEditable(false);
-		textField_3.setBounds(513, 143, 61, 20);
+		textField_3.setBounds(612, 143, 61, 20);
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 
 		JLabel lblTotalHours_1 = new JLabel("Total Hours:");
-		lblTotalHours_1.setBounds(442, 146, 61, 14);
+		lblTotalHours_1.setBounds(541, 146, 61, 14);
 		contentPane.add(lblTotalHours_1);
 
 		JLabel lblEmail = new JLabel("Email:");
@@ -206,6 +198,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		lblEmployeeUsername.setBounds(10, 73, 105, 14);
 		contentPane.add(lblEmployeeUsername);
 		textField_5 = new JFormattedTextField();
+		textField_5.setEditable(false);
 		textField_5.setToolTipText("The username the employee clocks in with (Usually numbers)");
 		textField_5.setBounds(115, 70, 115, 20);
 		contentPane.add(textField_5);
@@ -229,12 +222,12 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		textField_5.setDocument(doc);
 		
 		JLabel lblPosition = new JLabel("Position:");
-		lblPosition.setBounds(345, 75, 41, 14);
+		lblPosition.setBounds(444, 73, 41, 14);
 		contentPane.add(lblPosition);
 		try {
 			comboBox_2 = new JComboBox(Positions.loadPositions());
 			comboBox_2.setToolTipText("The position in which the Employee works");
-			comboBox_2.setBounds(396, 69, 178, 20);
+			comboBox_2.setBounds(495, 69, 178, 20);
 			contentPane.add(comboBox_2);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
@@ -245,16 +238,16 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		}
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(10, 327, 89, 23);
+		btnSave.setBounds(10, 437, 89, 23);
 		btnSave.addActionListener(this);
 		contentPane.add(btnSave);
 		
 		JButton btnSaveAndExit = new JButton("Save and Exit");
-		btnSaveAndExit.setBounds(379, 327, 99, 23);
+		btnSaveAndExit.setBounds(478, 437, 99, 23);
 		contentPane.add(btnSaveAndExit);
 
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(485, 327, 89, 23);
+		btnCancel.setBounds(595, 437, 89, 23);
 		contentPane.add(btnCancel);
 		
 		if(comboBox.getSelectedItem() instanceof Employee){
@@ -299,12 +292,21 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 	}
 	
 	public void updateEmployeeFrame(Employee employee){ //TODO Method stub
-		System.out.println("Updating EditEmployeeFrame..");
+		System.out.println("Updating EditEmployeeFrame for User"+employee.getUsername()+" - "+employee);
 		
 		employee.setDate(date);
 		textField_4.setText(employee.getEmail());
 		textField_5.setText(employee.getUsername());
 		comboBox_2.setSelectedItem(employee.getPosition());
+		
+		table.setCell(1, ScheduleTable.NAME, employee.getName());
+		table.setCell(1, ScheduleTable.MONDAY, employee.getFromToHours(Calendar.MONDAY));
+		table.setCell(1, ScheduleTable.TUESDAY, employee.getFromToHours(Calendar.TUESDAY));
+		table.setCell(1, ScheduleTable.WEDNESDAY, employee.getFromToHours(Calendar.WEDNESDAY));
+		table.setCell(1, ScheduleTable.THURSDAY, employee.getFromToHours(Calendar.THURSDAY));
+		table.setCell(1, ScheduleTable.FRIDAY, employee.getFromToHours(Calendar.FRIDAY));
+		table.setCell(1, ScheduleTable.SATURDAY, employee.getFromToHours(Calendar.SATURDAY));
+		table.setCell(1, ScheduleTable.SUNDAY, employee.getFromToHours(Calendar.SUNDAY));
 		
 		System.out.println("Update Successful!");
 	}

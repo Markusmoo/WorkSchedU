@@ -53,9 +53,9 @@ public class TableRenderer extends DefaultTableCellRenderer {
 				c.setBackground(new java.awt.Color(160, 160, 160));
 			}
 			
-			if(row == 0 && column == dayOfWeek && (int) weekSpinner.getValue() == week){ //TODO Remove comments
+			/*if(row == 0 && column == dayOfWeek && (int) weekSpinner.getValue() == week){ //TODO Remove comments
 				c.setBackground(new java.awt.Color(208, 181, 12));
-			}
+			}*/
 		}
     
 		return c; 

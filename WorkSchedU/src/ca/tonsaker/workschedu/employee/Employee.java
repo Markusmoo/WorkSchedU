@@ -127,6 +127,7 @@ public class Employee {
 	}
 	
 	public void setDate(String dateByWeek){
+		System.out.println("Loaded Date: "+dateByWeek);
 		int idx = 0;
 		for(Week i : weeks){
 			if(i != null && i.DATE != null){
@@ -209,7 +210,20 @@ public class Employee {
 			case Calendar.FRIDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY;
 			case Calendar.SATURDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY;
 			case Calendar.SUNDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
-			default: return weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
+			default: return weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY;
+		}
+	}
+	
+	public String getFromToHours(int day){
+		switch(day){
+			case Calendar.MONDAY: return weeks[referenceWeekIdx].MONDAY_HOURS;
+			case Calendar.TUESDAY: return weeks[referenceWeekIdx].TUESDAY_HOURS;
+			case Calendar.WEDNESDAY: return weeks[referenceWeekIdx].WEDNESDAY_HOURS;
+			case Calendar.THURSDAY: return weeks[referenceWeekIdx].THURSDAY_HOURS;
+			case Calendar.FRIDAY: return weeks[referenceWeekIdx].FRIDAY_HOURS;
+			case Calendar.SATURDAY: return weeks[referenceWeekIdx].SATURDAY_HOURS;
+			case Calendar.SUNDAY: return weeks[referenceWeekIdx].SUNDAY_HOURS;
+			default: return weeks[referenceWeekIdx].MONDAY_HOURS;
 		}
 	}
 	
