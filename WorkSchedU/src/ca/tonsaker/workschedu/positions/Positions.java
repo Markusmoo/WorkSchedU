@@ -18,21 +18,14 @@ public class Positions{ //TODO
 	
 	@Expose public String[] POSITIONS;
 	
-	public static boolean savePositions(String[] positions, int[] sortNums) throws IOException{
+	public static boolean savePositions(String[] positions) throws IOException{
 		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Settings\\positions.json";
 		new File(System.getenv("APPDATA")+"\\WorkSchedU\\Settings").mkdirs();
 		Writer writer = new OutputStreamWriter(new FileOutputStream(path));
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		
 		Positions p = new Positions();
-		String[] newPositions = new String[positions.length];
-		
-		int idx = 0;
-		for(String pos : positions){
-			newPositions[idx] = "%"+sortNums[idx]+"%"+pos;
-			idx++;
-		}
-		p.POSITIONS = newPositions;
+		p.POSITIONS = positions;
 		
 		writer.write(gson.toJson(p));
 		writer.flush();
@@ -55,12 +48,7 @@ public class Positions{ //TODO
 			System.out.println("WARNING: No positions found.");
 			return null;
 		}else{
-			String[] newPositions = new String[p.POSITIONS.length];
-			for(String pos : p.POSITIONS){
-				System.out.println(pos.charAt(1));
-				newPositions[pos.charAt(1)] = pos.substring(3);
-			}
-			return newPositions;
+			return p.POSITIONS;
 		}
 	}
 }

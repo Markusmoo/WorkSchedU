@@ -1,5 +1,7 @@
-package ca.tonsaker.workschedu.settings;
+package ca.tonsaker.workschedu.utilities;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import javax.swing.JComponent;
+import javax.swing.JRootPane;
 
 import ca.tonsaker.workschedu.employee.Employee;
 import ca.tonsaker.workschedu.positions.Positions;
@@ -74,7 +79,7 @@ public abstract class Utilities {
 			Positions.loadPositions();
 		}catch(Exception e){
 			try {
-				Positions.savePositions(new String[]{"Crew"}, new int[]{0});
+				Positions.savePositions(new String[]{"None"});
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -88,5 +93,28 @@ public abstract class Utilities {
 				e1.printStackTrace();
 			}
 		}
+	}
+	
+	public static void darkenPane(boolean b, JComponent comp){
+		if(b){
+			comp.getRootPane().getGlassPane().setVisible(true);
+		}else{
+			comp.getRootPane().getGlassPane().setVisible(false);
+		}
+	}
+	
+	public static void setDarkeningPane(JRootPane root){
+		root.setGlassPane(new JComponent() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = -6217779820295728816L;
+
+			public void paintComponent(Graphics g) {
+		        g.setColor(new Color(0, 0, 0, 100));
+		        g.fillRect(0, 0, getWidth(), getHeight());
+		        super.paintComponent(g);
+		    }
+		});
 	}
 }

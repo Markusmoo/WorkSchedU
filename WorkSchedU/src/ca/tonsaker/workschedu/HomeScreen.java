@@ -3,8 +3,8 @@ package ca.tonsaker.workschedu;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
@@ -14,7 +14,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.JSpinner;
-
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -24,9 +23,10 @@ import javax.swing.ImageIcon;
 
 import ca.tonsaker.workschedu.employee.AddEmployeeFrame;
 import ca.tonsaker.workschedu.employee.EditEmployeeFrame;
-import ca.tonsaker.workschedu.settings.Utilities;
+import ca.tonsaker.workschedu.positions.AddPositionFrame;
+import ca.tonsaker.workschedu.utilities.Utilities;
 
-public class HomeScreen extends JFrame implements ActionListener {
+public class HomeScreen extends JFrame implements ActionListener,WindowListener {
 	
 	/**
 	 * 
@@ -41,6 +41,8 @@ public class HomeScreen extends JFrame implements ActionListener {
 	JMenuItem mntmEditEmployeeSchedule;
 	JMenuItem mntmAddEmployee;
 	JMenuItem mntmRemoveEmployee;
+	JMenuItem mntmAddPosition;
+	JMenuItem mntmRemovePosition;
 	
 	
 	//TODO Testing Values.  Make employee object storing total week hours, add save and load data with strings.
@@ -78,6 +80,8 @@ public class HomeScreen extends JFrame implements ActionListener {
 		setTitle("WorkSchedU");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
+		
+		Utilities.setDarkeningPane(getRootPane());
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -124,18 +128,12 @@ public class HomeScreen extends JFrame implements ActionListener {
 		JMenu mnPositions = new JMenu("Positions");
 		menuBar.add(mnPositions);
 		
-		JMenuItem mntmAddPosition = new JMenuItem("Add Position");
-		mnPositions.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-			
-		});
+		mntmAddPosition = new JMenuItem("Add Position");
+		mntmAddPosition.addActionListener(this);
 		mnPositions.add(mntmAddPosition);
 		
-		JMenuItem mntmRemovePosition = new JMenuItem("Remove Position");
+		mntmRemovePosition = new JMenuItem("Remove Position");
+		mntmRemovePosition.addActionListener(this);
 		mnPositions.add(mntmRemovePosition);
 		
 		
@@ -204,20 +202,59 @@ public class HomeScreen extends JFrame implements ActionListener {
 		getContentPane().add(table);
 	}
 	
-	public void openEmployeeManager(){
+	public void darkenPane(boolean b){
+		Utilities.darkenPane(b, getRootPane());
+		setEnabled(!b);
+		if(!b)
+		this.toFront();
 	}
-
+	
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Selected: " + e.getActionCommand());
 		Object src = e.getSource();
 		
 		if(src == mntmEditEmployeeSchedule){
-			new EditEmployeeFrame(this);
+			EditEmployeeFrame frame = new EditEmployeeFrame(this);
+			frame.addWindowListener(this);
 		}else if(src == mntmAddEmployee){
-			new AddEmployeeFrame();
-		}else if (src == mntmRemoveEmployee){
+			AddEmployeeFrame frame = new AddEmployeeFrame();
+			frame.addWindowListener(this);
+		}else if(src == mntmRemoveEmployee){
 			//TODO STUB
-		} //TODO Add rest of actions
+		}else if(src == mntmAddPosition){
+			AddPositionFrame frame = new AddPositionFrame();
+			frame.addWindowListener(this);
+		}else if(src == mntmRemovePosition){
+			//TODO STUB
+		}
+	}
+	
+	@Override
+	public void windowActivated(WindowEvent arg0) {}
+
+	@Override
+	public void windowClosed(WindowEvent e){
+		darkenPane(false);
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		darkenPane(true);
 	}
 }

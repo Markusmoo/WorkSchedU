@@ -23,13 +23,16 @@ import java.io.IOException;
 import javax.swing.JComboBox;
 
 import ca.tonsaker.workschedu.positions.Positions;
-import ca.tonsaker.workschedu.settings.Utilities;
 
 import java.awt.Font;
 import java.awt.Color;
 
 public class AddEmployeeFrame extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -827334320917688682L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JFormattedTextField textField_1;
@@ -38,15 +41,13 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 	private JButton btnCancel;
 	private JButton btnAdd;
 	
-	@SuppressWarnings("rawtypes")
-	private JComboBox comboBox_1;
+	private JComboBox<String> comboBox_1;
 	private JLabel lblOptionalName;
 	private JLabel lblOptionalUser;
 
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
 	public AddEmployeeFrame() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -54,7 +55,7 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 			e.printStackTrace();
 		}
 		setTitle("Add New Employee");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setBounds(100, 100, 400, 200);
 		contentPane = new JPanel();
@@ -135,12 +136,12 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 			contentPane.add(lblPosition);
 			String[] positions = Positions.loadPositions();
 			if(positions != null){
-				comboBox_1 = new JComboBox(positions);
+				comboBox_1 = new JComboBox<>(positions);
 				comboBox_1.setBounds(127, 106, 200, 20);
 				comboBox_1.setToolTipText("The position that the employee usually works");
 				contentPane.add(comboBox_1);
 			}else{
-				comboBox_1 = new JComboBox();
+				comboBox_1 = new JComboBox<>();
 				comboBox_1.setBounds(127, 106, 200, 20);
 				comboBox_1.setToolTipText("The position that the employee usually works");
 				comboBox_1.setEnabled(false);
@@ -155,7 +156,9 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("Selected: " + e.getActionCommand());
 		Object src = e.getSource();
+		
 		if(src == btnAdd){
 			if(!addEmployee()) return;
 			this.dispose();

@@ -19,7 +19,7 @@ import ca.tonsaker.workschedu.HomeScreen;
 import ca.tonsaker.workschedu.ScheduleTable;
 import ca.tonsaker.workschedu.TableRenderer;
 import ca.tonsaker.workschedu.positions.Positions;
-import ca.tonsaker.workschedu.settings.Utilities;
+import ca.tonsaker.workschedu.utilities.Utilities;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -66,7 +66,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		"7:00pm", "7:30pm", "8:00pm", "8:30pm", "9:00pm", "9:30pm",
 		"10:00pm", "10:30pm", "11:00pm", "11:30pm", "12:00am", "12:30am"};
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })  
 	public EditEmployeeFrame(HomeScreen homeScreen) {
 		
 		//Frame stuff
@@ -233,14 +233,12 @@ public class EditEmployeeFrame extends JFrame implements ActionListener{
 		contentPane.add(lblPosition);
 		try {
 			comboBox_2 = new JComboBox(Positions.loadPositions());
-			comboBox_2.setEditable(true);
 			comboBox_2.setToolTipText("The position in which the Employee works");
 			comboBox_2.setBounds(396, 69, 178, 20);
 			contentPane.add(comboBox_2);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			comboBox_2 = new JComboBox();
-			comboBox_2.setEditable(true);
 			comboBox_2.setToolTipText("The position in which the Employee works");
 			comboBox_2.setBounds(396, 69, 178, 20);
 			contentPane.add(comboBox_2);
