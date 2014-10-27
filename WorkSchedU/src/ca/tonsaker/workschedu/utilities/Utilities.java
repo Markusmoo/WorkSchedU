@@ -39,7 +39,6 @@ public abstract class Utilities {
 		calendar.set(Calendar.YEAR, year);
 
 		Date date = calendar.getTime();
-		//System.out.println(dateFormat.format(date)); //TODO Debug
 		return dateFormat.format(date);
 	}
 	
@@ -123,6 +122,7 @@ public abstract class Utilities {
 	}
 	
 	public static double getTotalHours(String time){
+		if(time.equals("00:00-00:00")) return 0.0;
 		try {
 			String timeFrom = time.substring(0, time.indexOf("-"));
 			String timeTo = time.substring(time.indexOf("-")+1);
@@ -141,6 +141,7 @@ public abstract class Utilities {
 	}
 	
 	public static double getTotalHours(String timeFrom, String timeTo){
+		if(timeFrom.equals("00:00") || timeTo.equals("00:00")) return 0.0;
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mma");
 			Date dateObj1 = sdf.parse(timeFrom);

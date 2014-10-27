@@ -239,7 +239,7 @@ public class EditEmployeeFrame extends JFrame implements ActionListener,ChangeLi
 		updateEmployeeFrame(selectedEmployee);
 		
 		dayEditor = new SchedUDayEdit(selectedEmployee, textField_totalHoursWeek);
-		dayEditor.setBounds(10, 242, 134, 166);
+		dayEditor.setBounds(10, 232, 134, 185);
 		contentPane.add(dayEditor);
 		
 		this.setVisible(true);
