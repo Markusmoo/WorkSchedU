@@ -20,10 +20,11 @@ public class TableRenderer extends DefaultTableCellRenderer {
 	JSpinner weekSpinner;
 	
 	public TableRenderer(int dayOfWeek, int week, ScheduleTable table, JSpinner weekSpinner){
+		super();
 		if(dayOfWeek > Calendar.SUNDAY){
 			this.dayOfWeek = dayOfWeek-1;
 		}else if(dayOfWeek == Calendar.SUNDAY){
-			this.dayOfWeek = Calendar.SATURDAY+1;
+			this.dayOfWeek = 7;
 		}
 		
 		this.week = week;
@@ -52,10 +53,10 @@ public class TableRenderer extends DefaultTableCellRenderer {
 			}else if(row == 0){
 				c.setBackground(new java.awt.Color(160, 160, 160));
 			}
-			
-			/*if(row == 0 && column == dayOfWeek && (int) weekSpinner.getValue() == week){ //TODO Remove comments
+
+			if(row == 0 && column == dayOfWeek && (int) weekSpinner.getValue() == week){ //TODO Remove comments
 				c.setBackground(new java.awt.Color(208, 181, 12));
-			}*/
+			}
 		}
     
 		return c; 

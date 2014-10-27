@@ -12,6 +12,7 @@ import java.io.Writer;
 import java.util.Calendar;
 
 import ca.tonsaker.workschedu.ScheduleTable;
+import ca.tonsaker.workschedu.utilities.Utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,8 +34,11 @@ public class Employee {
 			private ScheduleTable scdTable;
 			
 	public Employee(){
-		weeks = new Week[]{new Week("IGNORE")};
 		scdTable = new ScheduleTable(1);
+	}
+	
+	public Employee(ScheduleTable table){
+		scdTable = table;
 	}
 	
 	public String toString(){
@@ -127,19 +131,28 @@ public class Employee {
 	}
 	
 	public void setDate(String dateByWeek){
-		System.out.println("Loaded Date: "+dateByWeek);
+		System.out.println("\n\nLoading Date: "+dateByWeek+" for user"+EMPLOYEE_USERNAME);
 		int idx = 0;
-		for(Week i : weeks){
-			if(i != null && i.DATE != null){
-				if(i.DATE.equals(dateByWeek)){
-					referenceWeekIdx = idx;
+		if(weeks != null){
+			for(Week i : weeks){
+				System.out.println("Checking date: "+i.DATE);
+				if(i != null && i.DATE != null){
+					if(i.DATE.equals(dateByWeek)){
+						referenceWeekIdx = idx;
+						System.out.println("Loaded week at idx:"+referenceWeekIdx);
+						return;
+					}
+				}else{
+					weeks[idx] = new Week(dateByWeek);
+					System.out.println("Created new week at idx:"+referenceWeekIdx);
 					return;
 				}
-			}else{
-				weeks[idx] = new Week(dateByWeek);
-				return;
+				idx++;
 			}
-			idx++;
+		}else{
+			weeks = new Week[]{new Week(dateByWeek)};
+			System.out.println("Created new week at idx:"+referenceWeekIdx);
+			return;
 		}
 		Week[] w = new Week[weeks.length+1];
 		System.arraycopy(weeks, 0, w, 0, weeks.length);
@@ -188,14 +201,46 @@ public class Employee {
 		String time;
 		time = fromTime12 + "-" + toTime12;
 		switch(day){
-			case Calendar.MONDAY: scdTable.setCell(1, 2, time); weeks[referenceWeekIdx].MONDAY_HOURS = time; break;
-			case Calendar.TUESDAY: scdTable.setCell(1, 3, time); weeks[referenceWeekIdx].TUESDAY_HOURS = time; break;
-			case Calendar.WEDNESDAY: scdTable.setCell(1, 4, time); weeks[referenceWeekIdx].WEDNESDAY_HOURS = time; break;
-			case Calendar.THURSDAY: scdTable.setCell(1, 5, time); weeks[referenceWeekIdx].THURSDAY_HOURS = time; break;
-			case Calendar.FRIDAY: scdTable.setCell(1, 6, time); weeks[referenceWeekIdx].FRIDAY_HOURS = time; break;
-			case Calendar.SATURDAY: scdTable.setCell(1, 7, time); weeks[referenceWeekIdx].SATURDAY_HOURS = time; break;
-			case Calendar.SUNDAY: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].SUNDAY_HOURS = time; break;
-			default: scdTable.setCell(1, 1, time); weeks[referenceWeekIdx].MONDAY_HOURS = time; break;
+			case Calendar.MONDAY:
+				scdTable.setCell(1, ScheduleTable.MONDAY, time);
+				weeks[referenceWeekIdx].MONDAY_HOURS = time;
+				weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			case Calendar.TUESDAY:
+				scdTable.setCell(1, ScheduleTable.TUESDAY, time);
+				weeks[referenceWeekIdx].TUESDAY_HOURS = time; 
+				weeks[referenceWeekIdx].TOTAL_HOURS_TUESDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			case Calendar.WEDNESDAY: 
+				scdTable.setCell(1, ScheduleTable.WEDNESDAY, time);
+				weeks[referenceWeekIdx].WEDNESDAY_HOURS = time;
+				weeks[referenceWeekIdx].TOTAL_HOURS_WEDNESDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			case Calendar.THURSDAY:
+				scdTable.setCell(1, ScheduleTable.THURSDAY, time);
+				weeks[referenceWeekIdx].THURSDAY_HOURS = time;
+				weeks[referenceWeekIdx].TOTAL_HOURS_THURSDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			case Calendar.FRIDAY:
+				scdTable.setCell(1, ScheduleTable.FRIDAY, time);
+				weeks[referenceWeekIdx].FRIDAY_HOURS = time;
+				weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			case Calendar.SATURDAY:
+				scdTable.setCell(1, ScheduleTable.SATURDAY, time);
+				weeks[referenceWeekIdx].SATURDAY_HOURS = time; 
+				weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			case Calendar.SUNDAY:
+				scdTable.setCell(1, ScheduleTable.SUNDAY, time);
+				weeks[referenceWeekIdx].SUNDAY_HOURS = time;
+				weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
+			default:
+				scdTable.setCell(1, ScheduleTable.MONDAY, time);
+				weeks[referenceWeekIdx].MONDAY_HOURS = time;
+				weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY = Utilities.getTotalHours(fromTime12, toTime12);
+				break;
 		}
 		
 		return scdTable;
@@ -227,6 +272,34 @@ public class Employee {
 		}
 	}
 	
+	public String getFromTime(int day){
+		Week week = weeks[referenceWeekIdx];
+		switch(day){
+			case Calendar.MONDAY: return week.MONDAY_HOURS.substring(0, week.MONDAY_HOURS.indexOf("-"));
+			case Calendar.TUESDAY: return week.TUESDAY_HOURS.substring(0, week.TUESDAY_HOURS.indexOf("-"));
+			case Calendar.WEDNESDAY: return week.WEDNESDAY_HOURS.substring(0, week.WEDNESDAY_HOURS.indexOf("-"));
+			case Calendar.THURSDAY: return week.THURSDAY_HOURS.substring(0 ,week.THURSDAY_HOURS.indexOf("-"));
+			case Calendar.FRIDAY: return week.FRIDAY_HOURS.substring(0, week.FRIDAY_HOURS.indexOf("-"));
+			case Calendar.SATURDAY: return week.SATURDAY_HOURS.substring(0, week.SATURDAY_HOURS.indexOf("-"));
+			case Calendar.SUNDAY: return week.SUNDAY_HOURS.substring(0, week.SUNDAY_HOURS.indexOf("-"));
+			default: return week.MONDAY_HOURS.substring(week.MONDAY_HOURS.indexOf("-"));
+		}
+	}
+	
+	public String getToTime(int day){
+		Week week = weeks[referenceWeekIdx];
+		switch(day){
+			case Calendar.MONDAY: return week.MONDAY_HOURS.substring(week.MONDAY_HOURS.indexOf("-")+1);
+			case Calendar.TUESDAY: return week.TUESDAY_HOURS.substring(week.TUESDAY_HOURS.indexOf("-")+1);
+			case Calendar.WEDNESDAY: return week.WEDNESDAY_HOURS.substring(week.WEDNESDAY_HOURS.indexOf("-")+1);
+			case Calendar.THURSDAY: return week.THURSDAY_HOURS.substring(week.THURSDAY_HOURS.indexOf("-")+1);
+			case Calendar.FRIDAY: return week.FRIDAY_HOURS.substring(week.FRIDAY_HOURS.indexOf("-")+1);
+			case Calendar.SATURDAY: return week.SATURDAY_HOURS.substring(week.SATURDAY_HOURS.indexOf("-")+1);
+			case Calendar.SUNDAY: return week.SUNDAY_HOURS.substring(week.SUNDAY_HOURS.indexOf("-")+1);
+			default: return week.MONDAY_HOURS.substring(week.MONDAY_HOURS.indexOf("-")+1);
+		}
+	}
+	
 	public double getTotalWeekHours(){
 		return weeks[referenceWeekIdx].TOTAL_HOURS_WEEK =
 				weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY+
@@ -236,23 +309,5 @@ public class Employee {
 				weeks[referenceWeekIdx].TOTAL_HOURS_FRIDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_SATURDAY+
 				weeks[referenceWeekIdx].TOTAL_HOURS_SUNDAY;
-	}
-	
-	public double convertTimeHoursToDouble24Hour(String time){ //TODO Check if messes up with 12am/pm due to.. 12am, 1am, 2am, ext.
-		double newTime = 0;
-		time = time.trim();
-		if(time.endsWith("pm")){
-			time = time.substring(0, time.lastIndexOf("pm"));
-			time.replaceAll(":", "");
-			newTime = Integer.parseInt(time)*2;
-		}else if(time.endsWith("am")){
-			time = time.substring(0, time.lastIndexOf("am"));
-			time.replaceAll(":", "");
-			newTime = Integer.parseInt(time)*2;
-		}else{
-			System.out.println("Error: Time could not be converted to Double-24Hours. Value: "+time);
-		}
-		System.out.println("Time: "+time+" New Time: "+newTime); //TODO Debug
-		return newTime;
 	}
 }

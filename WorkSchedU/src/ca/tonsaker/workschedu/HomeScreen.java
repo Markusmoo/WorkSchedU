@@ -47,6 +47,9 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 	
 	//TODO Testing Values.  Make employee object storing total week hours, add save and load data with strings.
 	//TODO Remove raw types from JComboBoxes
+	//TODO Reformat code
+	//TODO Add documentation
+	//TODO Optimization
 	private ScheduleTable table;
 	
 	/**
@@ -152,12 +155,6 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 		mnHelp.add(mntmAbout);
 		getContentPane().setLayout(null);
 		
-		table = new ScheduleTable(35);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(), Utilities.getWeek(), table, weekSpinner));
-		table.setBounds(20, 41, 854, 576);
-		getContentPane().add(table);
-		
 		weekSpinner = new JSpinner();
 		weekSpinner.setModel(new SpinnerNumberModel(Utilities.getWeek(), 0, Utilities.getWeeksOfYear(YEAR)+1, 1));
 		weekSpinner.setBounds(57, 10, 47, 20);
@@ -183,6 +180,12 @@ public class HomeScreen extends JFrame implements ActionListener,WindowListener 
 			
 		});
 		getContentPane().add(weekSpinner);
+		
+		table = new ScheduleTable(35);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultRenderer(new TableRenderer(Utilities.getDayOfWeek(), Utilities.getWeek(), table, weekSpinner));
+		table.setBounds(20, 41, 854, 576);
+		getContentPane().add(table);
 		
 		JLabel lblWeek = new JLabel("Week:");
 		lblWeek.setHorizontalAlignment(SwingConstants.RIGHT);

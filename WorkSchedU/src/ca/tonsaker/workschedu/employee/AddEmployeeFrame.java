@@ -34,16 +34,16 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = -827334320917688682L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JFormattedTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textField_name;
+	private JFormattedTextField textField_username;
+	private JTextField textField_email;
 
-	private JButton btnCancel;
-	private JButton btnAdd;
+	private JButton btn_Cancel;
+	private JButton btn_Add;
 	
 	private JComboBox<String> comboBox_1;
-	private JLabel lblOptionalName;
-	private JLabel lblOptionalUser;
+	private JLabel lbl_requiredName;
+	private JLabel lbl_requiredUsername;
 
 	/**
 	 * Create the frame.
@@ -63,27 +63,27 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblEmployeeName = new JLabel("Employee Name:");
-		lblEmployeeName.setBounds(37, 14, 80, 14);
-		contentPane.add(lblEmployeeName);
-		textField = new JTextField();
-		textField.setToolTipText("Employee's name (First and Last)");
-		textField.setBounds(127, 11, 200, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		lblOptionalName = new JLabel("*");
-		lblOptionalName.setForeground(Color.RED);
-		lblOptionalName.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOptionalName.setToolTipText("Required");
-		lblOptionalName.setBounds(337, 14, 17, 14);
-		contentPane.add(lblOptionalName);
+		JLabel lbl_name = new JLabel("Employee Name:");
+		lbl_name.setBounds(37, 14, 80, 14);
+		contentPane.add(lbl_name);
+		textField_name = new JTextField();
+		textField_name.setToolTipText("Employee's name (First and Last initial (or however you like))");
+		textField_name.setBounds(127, 11, 200, 20);
+		contentPane.add(textField_name);
+		textField_name.setColumns(10);
+		lbl_requiredName = new JLabel("*");
+		lbl_requiredName.setForeground(Color.RED);
+		lbl_requiredName.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lbl_requiredName.setToolTipText("Required");
+		lbl_requiredName.setBounds(337, 14, 17, 14);
+		contentPane.add(lbl_requiredName);
 		
-		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setBounds(65, 45, 52, 14);
-		contentPane.add(lblUsername);
-		textField_1 = new JFormattedTextField();
-		textField_1.setToolTipText("Employee's Username (Usually numbers)");
-		textField_1.setBounds(127, 42, 200, 20);
+		JLabel lbl_username = new JLabel("Username:");
+		lbl_username.setBounds(65, 45, 52, 14);
+		contentPane.add(lbl_username);
+		textField_username = new JFormattedTextField();
+		textField_username.setToolTipText("Employee's Username (Usually numbers)");
+		textField_username.setBounds(127, 42, 200, 20);
 		@SuppressWarnings("serial")
 		Document doc = new PlainDocument() {
 		    @Override
@@ -100,40 +100,40 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 		        super.replace(offs, len, newstr, attr);
 		    }
 		};
-		textField_1.setDocument(doc);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		lblOptionalUser = new JLabel("*");
-		lblOptionalUser.setForeground(Color.RED);
-		lblOptionalUser.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOptionalUser.setToolTipText("Required");
-		lblOptionalUser.setBounds(337, 45, 17, 14);
-		contentPane.add(lblOptionalUser);
+		textField_username.setDocument(doc);
+		contentPane.add(textField_username);
+		textField_username.setColumns(10);
+		lbl_requiredUsername = new JLabel("*");
+		lbl_requiredUsername.setForeground(Color.RED);
+		lbl_requiredUsername.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lbl_requiredUsername.setToolTipText("Required");
+		lbl_requiredUsername.setBounds(337, 45, 17, 14);
+		contentPane.add(lbl_requiredUsername);
 		
-		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(89, 76, 28, 14);
-		contentPane.add(lblEmail);
-		textField_2 = new JTextField();
-		textField_2.setToolTipText("Employee's Email (Optional)");
-		textField_2.setBounds(127, 73, 200, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		JLabel lbl_email = new JLabel("Email:");
+		lbl_email.setBounds(89, 76, 28, 14);
+		contentPane.add(lbl_email);
+		textField_email = new JTextField();
+		textField_email.setToolTipText("Employee's Email (Optional)");
+		textField_email.setBounds(127, 73, 200, 20);
+		contentPane.add(textField_email);
+		textField_email.setColumns(10);
 		
-		btnAdd = new JButton("Add and Exit");
-		btnAdd.setToolTipText("Add employee to list and exit this window");
-		btnAdd.setBounds(10, 137, 107, 23);
-		btnAdd.addActionListener(this);
-		contentPane.add(btnAdd);
+		btn_Add = new JButton("Add and Exit");
+		btn_Add.setToolTipText("Add employee to list and exit this window");
+		btn_Add.setBounds(10, 137, 107, 23);
+		btn_Add.addActionListener(this);
+		contentPane.add(btn_Add);
 		
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(this);
-		btnCancel.setBounds(295, 137, 89, 23);
-		contentPane.add(btnCancel);
+		btn_Cancel = new JButton("Cancel");
+		btn_Cancel.addActionListener(this);
+		btn_Cancel.setBounds(295, 137, 89, 23);
+		contentPane.add(btn_Cancel);
 		
 		try {
-			JLabel lblPosition = new JLabel("Position:");
-			lblPosition.setBounds(76, 112, 41, 14);
-			contentPane.add(lblPosition);
+			JLabel lbl_position = new JLabel("Position:");
+			lbl_position.setBounds(76, 112, 41, 14);
+			contentPane.add(lbl_position);
 			String[] positions = Positions.loadPositions();
 			if(positions != null){
 				comboBox_1 = new JComboBox<>(positions);
@@ -159,16 +159,16 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 		System.out.println("Selected: " + e.getActionCommand());
 		Object src = e.getSource();
 		
-		if(src == btnAdd){
+		if(src == btn_Add){
 			if(!addEmployee()) return;
 			this.dispose();
-		}else if(src == btnCancel){
+		}else if(src == btn_Cancel){
 			this.dispose();
 		}
 	}
 	
 	private boolean usernameExists(){
-		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\user"+textField_1.getText()+".json";
+		String path = System.getenv("APPDATA")+"\\WorkSchedU\\Employees\\user"+textField_username.getText()+".json";
 		FileInputStream file;
 		try {
 			file = new FileInputStream(path);
@@ -184,27 +184,30 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 	}
 	
 	public boolean addEmployee(){
-		if(!usernameExists() && !textField_1.getText().equals("")){
+		if(!usernameExists() && !textField_username.getText().equals("")){
 			Employee e = new Employee();
 			e.setDate("IGNORE");
-			String email = textField_2.getText().trim();
+			String email = textField_email.getText().trim();
 			if(email.indexOf('@') > -1){
 				e.setEmail(email);
 			}else{
 				e.setEmail("NONE");
 			}
-			if(textField_1.getText().equals("")){
+			if(comboBox_1 != null){
+				e.setPosition(comboBox_1.getSelectedItem().toString());
+			}
+			if(textField_username.getText().equals("")){
 				JOptionPane.showMessageDialog(this, "You didn't add a username!", "Missing Fields", JOptionPane.WARNING_MESSAGE);
 				return false;
 			}else{
-				e.setUsername(textField_1.getText());
+				e.setUsername(textField_username.getText());
 			}
-			e.setUsername(textField_1.getText());
-			if(textField.getText().trim().equals("")){
+			e.setUsername(textField_username.getText());
+			if(textField_name.getText().trim().equals("")){
 				JOptionPane.showMessageDialog(this, "You didn't add a name!", "Missing Fields", JOptionPane.WARNING_MESSAGE);
 				return false;
 			}else{
-				e.setName(textField.getText());
+				e.setName(textField_name.getText());
 			}
 			try {
 				e.save();
@@ -215,7 +218,7 @@ public class AddEmployeeFrame extends JFrame implements ActionListener{
 			}
 			return true;
 		}else{
-			JOptionPane.showMessageDialog(this, "Username "+ textField_1.getText() +" already exists!", "Username Exists", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Username "+ textField_username.getText() +" already exists!", "Username Exists", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 	}

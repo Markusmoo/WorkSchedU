@@ -4,8 +4,6 @@ import com.google.gson.annotations.Expose;
 
 public class Week {
 	
-	//TODO Go off by date
-	//TODO Update APPDATA
 	@Expose public String DATE;
 	
 	@Expose public double TOTAL_HOURS_MONDAY;
@@ -28,13 +26,13 @@ public class Week {
 
 	public Week(String date){
 		if(DATE == null){
-			MONDAY_HOURS = "1:00am-1:00am";
-			TUESDAY_HOURS = "1:00am-1:00am";
-			WEDNESDAY_HOURS = "1:00am-1:00am";
-			THURSDAY_HOURS = "1:00am-1:00am";
-			FRIDAY_HOURS = "1:00am-1:00am";
-			SATURDAY_HOURS = "1:00am-1:00am";
-			SUNDAY_HOURS = "1:00am-1:00am";
+			MONDAY_HOURS = "12:00pm-12:00pm";
+			TUESDAY_HOURS = "12:00pm-12:00pm";
+			WEDNESDAY_HOURS = "12:00pm-12:00pm";
+			THURSDAY_HOURS = "12:00pm-12:00pm";
+			FRIDAY_HOURS = "12:00pm-12:00pm";
+			SATURDAY_HOURS = "12:00pm-12:00pm";
+			SUNDAY_HOURS = "12:00pm-12:00pm";
 			DATE = date;
 		}
 	}

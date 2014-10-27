@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -93,6 +94,87 @@ public abstract class Utilities {
 				e1.printStackTrace();
 			}
 		}
+	}
+	
+	public static int convertCalendarDayToIndex(int dayOfWeek){
+		switch(dayOfWeek){
+			case(Calendar.MONDAY): return 0;
+			case(Calendar.TUESDAY): return 1;
+			case(Calendar.WEDNESDAY): return 2;
+			case(Calendar.THURSDAY): return 3;
+			case(Calendar.FRIDAY): return 4;
+			case(Calendar.SATURDAY): return 5;
+			case(Calendar.SUNDAY): return 6;
+			default: return 0;
+		}
+	}
+	
+	public static int convertIndexToCalendarDay(int index){
+		switch(index){
+			case(0): return Calendar.MONDAY;
+			case(1): return Calendar.TUESDAY;
+			case(2): return Calendar.WEDNESDAY;
+			case(3): return Calendar.THURSDAY;
+			case(4): return Calendar.FRIDAY;
+			case(5): return Calendar.SATURDAY;
+			case(6): return Calendar.SUNDAY;
+			default: return 0;
+		}
+	}
+	
+	public static double getTotalHours(String time){
+		try {
+			String timeFrom = time.substring(0, time.indexOf("-"));
+			String timeTo = time.substring(time.indexOf("-")+1);
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+			Date dateObj1 = sdf.parse(timeFrom);
+		    Date dateObj2 = sdf.parse(timeTo);
+
+		    long diff = dateObj2.getTime() - dateObj1.getTime();
+		    double diffInHours = diff / ((double) 1000 * 60 * 60);
+		    
+		    return diffInHours;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public static double getTotalHours(String timeFrom, String timeTo){
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mma");
+			Date dateObj1 = sdf.parse(timeFrom);
+		    Date dateObj2 = sdf.parse(timeTo);
+
+		    long diff = dateObj2.getTime() - dateObj1.getTime();
+		    double diffInHours = diff / ((double) 1000 * 60 * 60);
+		    
+		    return diffInHours;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public static double convertTimeHoursToDouble24(String time){ //TODO Check if messes up with 12am/pm due to.. 12am, 1am, 2am, ext.
+		double newTime = 0;
+		time = time.trim();
+		if(time.endsWith("pm")){
+			time = time.substring(0, time.lastIndexOf("pm"));
+			time.replaceAll(":", "");
+			newTime = Integer.parseInt(time)*2;
+		}else if(time.endsWith("am")){
+			time = time.substring(0, time.lastIndexOf("am"));
+			time.replaceAll(":", "");
+			newTime = Integer.parseInt(time)*2;
+		}else{
+			System.out.println("Error: Time could not be converted to Double-24Hours. Value: "+time);
+		}
+		System.out.println("Time: "+time+" New Time: "+newTime); //TODO Debug
+		return newTime;
 	}
 	
 	public static void darkenPane(boolean b, JComponent comp){

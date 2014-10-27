@@ -9,7 +9,7 @@ import java.awt.Font;
 
 public class ScheduleTable extends JTable{
 	
-	//TODO Change table bounds for each class that uses this class.
+	//TODO Add date beside schedule headers.  Example:  Monday, Oct. 5:
 	
 	public static int NAME = 0;
 	public static int MONDAY = 1;
