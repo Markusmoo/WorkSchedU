@@ -128,6 +128,50 @@ public class SchedUDayEdit extends JPanel implements ChangeListener,ActionListen
 	}
 	
 	public void update(){
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+		
+		int day = Utilities.convertIndexToCalendarDay(comboBox_dayOfWeek.getSelectedIndex());
+		
+		if(src == comboBox_dayOfWeek){
+			System.out.println(employee.isWorking(day));
+			tglbtn_onOff.setSelected(employee.isWorking(day));
+		}else if(src == tglbtn_onOff){
+			if(tglbtn_onOff.isSelected()){
+				employee.setsScheduleTime(day, "12:00pm", "12:00pm");
+				spinner_fromTime.setValue(employee.getFromTime(day));
+				spinner_toTime.setValue(employee.getToTime(day));
+				spinner_fromTime.setEnabled(true);
+				spinner_toTime.setEnabled(true);
+			}else{
+				employee.setsScheduleTime(day, "00:00", "00:00");
+				spinner_fromTime.setEnabled(false);
+				spinner_toTime.setEnabled(false);
+				spinner_fromTime.setValue("00:00");
+				spinner_toTime.setValue("00:00");
+			}
+		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		Object src = e.getSource();
+		
+		int day = Utilities.convertIndexToCalendarDay(comboBox_dayOfWeek.getSelectedIndex());
+		
+		if(src == spinner_fromTime && spinner_fromTime.isEnabled()){
+			employee.setsScheduleTime(day, spinner_fromTime.getValue().toString(), spinner_toTime.getValue().toString());
+		}else if(src == spinner_toTime && spinner_toTime.isEnabled()){
+			employee.setsScheduleTime(day, spinner_fromTime.getValue().toString(), spinner_toTime.getValue().toString());
+		}
+		
+	}
+	
+	/*public void update(){
 		int day = comboBox_dayOfWeek.getSelectedIndex();
 		day = Utilities.convertIndexToCalendarDay(day);
 		
@@ -196,5 +240,5 @@ public class SchedUDayEdit extends JPanel implements ChangeListener,ActionListen
 				update();
 			}
 		}
-	}
+	}*/
 }

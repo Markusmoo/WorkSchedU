@@ -246,6 +246,14 @@ public class Employee {
 		return scdTable;
 	}
 	
+	public boolean isWorking(int day){
+		if(this.getFromTime(day).equals("00:00") || this.getToTime(day).equals("00:00")){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 	public double getTotalDayHours(int day){
 		switch(day){
 			case Calendar.MONDAY: return weeks[referenceWeekIdx].TOTAL_HOURS_MONDAY;

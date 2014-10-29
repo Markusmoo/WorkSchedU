@@ -38,15 +38,14 @@ public class ScheduleTable extends JTable{
 					"Names:", "Monday:", "Tuesday:", "Wednesday:", "Thursday:", "Friday:", "Saturday:", "Sunday:"
 				}
 			){
+
 				/**
 				 * 
 				 */
-				private static final long serialVersionUID = -4834569138576084865L;
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false, false, false
-				};
+				private static final long serialVersionUID = -7450960138847988867L;
+
 				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
+					return false;
 				}
 			};
 		
@@ -58,6 +57,7 @@ public class ScheduleTable extends JTable{
 	}
 	
 	public void setCell(int rowIndex, int columnIndex, Object aValue){
+		if(aValue.equals("00:00-00:00")) aValue = "";
 		this.dataModel.setValueAt(aValue, rowIndex, columnIndex);
 	}
 	
